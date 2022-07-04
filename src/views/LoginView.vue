@@ -1,6 +1,12 @@
 <script setup>
 import { ref } from "vue";
-import axios from "axios";
+import axios from "../utils/axios.js";
+import { useRouter } from "vue-router";
+import { useUserStore } from "../stores/userStore";
+
+const router = useRouter();
+
+const user = useUserStore();
 
 const formData = ref({
   email: "",
@@ -10,7 +16,7 @@ const formData = ref({
 const errorMesssage = ref("");
 
 const loginFormSubmit = async () => {
-  const URL = "http://127.0.0.1:4444/auth/login";
+  const URL = "/auth/login";
 
   try {
     const response = await axios.post(URL, formData.value);
@@ -21,7 +27,8 @@ const loginFormSubmit = async () => {
       errorMesssage.value = "";
       formData.value.email = "";
       formData.value.password = "";
-      // redirect to Home
+      user.isAuth = true;
+      router.push("/");
     }
 
     if (response.data.status === "error") {

@@ -1,6 +1,15 @@
 <script setup>
-import { RouterLink } from "vue-router";
+import { RouterLink, useRouter } from "vue-router";
+import { useUserStore } from "../stores/userStore";
 defineProps({});
+
+const user = useUserStore();
+const router = useRouter();
+
+const logout = () => {
+  user.logout();
+  router.push("/login");
+};
 </script>
 
 <template>
@@ -25,12 +34,13 @@ defineProps({});
         </ul>
 
         <div class="text-end">
-          <RouterLink to="/login" class="btn btn-outline-light me-2"
+          <RouterLink
+            v-if="!user.isAuth"
+            to="/login"
+            class="btn btn-outline-light me-2"
             >Login</RouterLink
           >
-          <RouterLink to="/register" class="btn btn-warning"
-            >Register</RouterLink
-          >
+          <button v-else class="btn btn-warning" @click="logout">Logout</button>
         </div>
       </div>
     </div>
