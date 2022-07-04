@@ -1,13 +1,35 @@
 <script setup>
 import { ref } from "vue";
+import axios from "axios";
 
 const formData = ref({
   email: "",
   password: "",
 });
 
-const loginFormSubmit = () => {
-  console.log(formData.value);
+const errorMesssage = ref("");
+
+const loginFormSubmit = async () => {
+  const URL = "http://127.0.0.1:4444/auth/login";
+
+  try {
+    const response = await axios.post(URL, formData.value);
+    console.log(response.data);
+
+    if (response.data.status === "ok") {
+      response.data.token && localStorage.setItem("auth", response.data.token);
+      errorMesssage.value = "";
+      formData.value.email = "";
+      formData.value.password = "";
+      // redirect to Home
+    }
+
+    if (response.data.status === "error") {
+      errorMesssage.value = response.data.message;
+    }
+  } catch (error) {
+    console.log("Login error: ", error);
+  }
 };
 </script>
 <template>
@@ -34,8 +56,11 @@ const loginFormSubmit = () => {
         />
         <label for="floatingPassword">Password</label>
       </div>
-      <div class="checkbox mb-3 visually-hidden">
-        <label>
+      <div class="checkbox mb-3">
+        <div class="invalid-feedback">
+          {{ errorMesssage }}
+        </div>
+        <label class="visually-hidden">
           <input type="checkbox" value="remember-me" /> Remember me
         </label>
       </div>
@@ -71,5 +96,10 @@ const loginFormSubmit = () => {
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+.invalid-feedback {
+  display: block;
+  min-height: 21px;
 }
 </style>
