@@ -18,6 +18,18 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue')
     },
     {
+      path: '/github',
+      name: 'github',
+      meta: {requiresAuth: true},
+      component: () => import('../views/GithubView.vue')
+    },
+    {
+      path: '/habr',
+      name: 'habr',
+      meta: {requiresAuth: true},
+      component: () => import('../views/HAbrView.vue')
+    },
+    {
       path: '/login',
       name: 'login',
       component: () => import('../views/LoginView.vue')
