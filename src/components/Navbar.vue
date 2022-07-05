@@ -8,6 +8,7 @@ const router = useRouter();
 
 const logout = () => {
   user.logout();
+  localStorage.removeItem("auth");
   router.push("/login");
 };
 </script>

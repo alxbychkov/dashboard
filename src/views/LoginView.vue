@@ -1,12 +1,12 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import axios from "../utils/axios.js";
 import { useRouter } from "vue-router";
 import { useUserStore } from "../stores/userStore";
 
 const router = useRouter();
 
-const user = useUserStore();
+const currentUser = useUserStore();
 
 const formData = ref({
   email: "",
@@ -20,14 +20,17 @@ const loginFormSubmit = async () => {
 
   try {
     const response = await axios.post(URL, formData.value);
-    console.log(response.data);
 
     if (response.data.status === "ok") {
-      response.data.token && localStorage.setItem("auth", response.data.token);
+      const { token, user } = response.data;
+
+      currentUser.login(user);
+      token && localStorage.setItem("auth", token);
+
       errorMesssage.value = "";
       formData.value.email = "";
       formData.value.password = "";
-      user.isAuth = true;
+
       router.push("/");
     }
 
@@ -38,6 +41,12 @@ const loginFormSubmit = async () => {
     console.log("Login error: ", error);
   }
 };
+
+onMounted(async () => {
+  if (localStorage.getItem("auth")) {
+    await currentUser.auth();
+  }
+});
 </script>
 <template>
   <main class="form-signin w-100 m-auto text-center">

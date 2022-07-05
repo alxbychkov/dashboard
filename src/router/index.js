@@ -25,10 +25,18 @@ const router = createRouter({
   ]
 });
 
-router.beforeEach((to) => {
+router.beforeEach(async (to, from, next) => {
   const user = useUserStore();
 
-  if (to.meta.requiresAuth && !user.isAuth) return '/login';
+  if (localStorage.getItem('auth') && !user.isAuth) {
+    await user.auth();
+  }
+
+  if (to.meta.requiresAuth && !user.isAuth) {
+    next('/login');
+  } else {
+    next();
+  }
 })
 
 export default router;
