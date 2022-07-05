@@ -1,6 +1,9 @@
 <script setup>
 import { onMounted } from "vue";
 import { RouterLink } from "vue-router";
+import { useUserStore } from "../stores/userStore";
+
+const user = useUserStore();
 
 onMounted(() => {
   const tooltipTriggerList = Array.from(
@@ -13,6 +16,7 @@ onMounted(() => {
 </script>
 <template>
   <aside
+    v-if="user.isAuth"
     class="d-flex flex-column flex-shrink-0 bg-dark sidebar"
     style="width: 4.5rem"
   >

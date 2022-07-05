@@ -14,7 +14,6 @@ import "../node_modules/bootstrap/dist/js/bootstrap.bundle.js";
       <RouterView />
     </div>
   </main>
-  <Footer />
 </template>
 
 <style>
