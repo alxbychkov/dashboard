@@ -27,7 +27,7 @@ const router = createRouter({
       path: '/habr',
       name: 'habr',
       meta: {requiresAuth: true},
-      component: () => import('../views/HAbrView.vue')
+      component: () => import('../views/HabrView.vue')
     },
     {
       path: '/login',
