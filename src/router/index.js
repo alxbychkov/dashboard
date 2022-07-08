@@ -27,7 +27,25 @@ const router = createRouter({
       path: '/habr',
       name: 'habr',
       meta: {requiresAuth: true},
-      component: () => import('../views/HabrView.vue')
+      component: () => import('../views/habr/HabrView.vue')
+    },
+    {
+      path: '/habr/manager',
+      name: 'habrManages',
+      meta: {requiresAuth: true},
+      component: () => import('../views/habr/HabrManagerView.vue')
+    },
+    {
+      path: '/habr/queries',
+      name: 'habrQueries',
+      meta: {requiresAuth: true},
+      component: () => import('../views/habr/HabrQueriesView.vue')
+    },
+    {
+      path: '/habr/candidates',
+      name: 'habrCandidates',
+      meta: {requiresAuth: true},
+      component: () => import('../views/habr/HabrCandidateView.vue')
     },
     {
       path: '/login',
