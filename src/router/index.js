@@ -36,7 +36,7 @@ const router = createRouter({
       component: () => import('../views/habr/HabrManagerView.vue')
     },
     {
-      path: '/habr/queries',
+      path: '/habr/query',
       name: 'habrQueries',
       meta: {requiresAuth: true},
       component: () => import('../views/habr/HabrQueriesView.vue')

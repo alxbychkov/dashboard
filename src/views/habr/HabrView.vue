@@ -1,20 +1,28 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { onBeforeMount, onMounted, ref } from "vue";
 import axios from "../../utils/axios/habr.js";
 import HabrNav from "./HabrNav.vue";
+import Loader from "../../components/Loader.vue";
+import { useHabrStore } from "../../stores/useHabrStore.js";
+
+const habr = useHabrStore();
 
 const activeManagers = ref([]);
 const activeQueries = ref([]);
 
+onBeforeMount(async () => {
+  await habr.getManagers();
+  await habr.getQueries();
+});
+
 onMounted(async () => {
-  const managersResponse = await axios.get("manager");
-  activeManagers.value = managersResponse.data.managers.filter(
+  activeManagers.value = habr.managers.filter(
     (m) => m.isActive
   );
 
-  const queriesResponse = await axios.get("query");
-  activeQueries.value = queriesResponse.data.queries.filter((q) => q.isActive);
-  console.log(activeQueries.value);
+  activeQueries.value = habr.queries.filter(
+    (q) => q.isActive
+  );
 });
 </script>
 <template>
@@ -23,30 +31,29 @@ onMounted(async () => {
   <div class="bord border border-secondary p-3 rounded mt-4">
     <div class="card">
       <div class="card-header">Active manager:</div>
-      <div class="card-body">
-        <h5
-          v-for="manager in activeManagers"
-          class="card-title"
-          :key="manager._id"
-        >
+      <div v-if="activeManagers.length" class="card-body">
+        <h5 v-for="manager in activeManagers" class="card-title" :key="manager._id">
           💼 {{ manager.name }} ({{ manager.login }})
         </h5>
+      </div>
+      <div v-else class="card-body">
+        <Loader />
       </div>
     </div>
     <div class="card mt-2">
       <div class="card-header">Active queries:</div>
       <div class="card-body">
-        <ul class="list-group mb-3">
-          <li
-            v-for="query in activeQueries"
-            class="list-group-item d-flex justify-content-between align-items-center"
-            :key="query._id"
-          >
+        <ul v-if="activeQueries.length" class="list-group mb-3">
+          <li v-for="query in activeQueries" class="list-group-item d-flex justify-content-between align-items-center"
+            :key="query._id">
             <h5 class="card-title">{{ query.name }}</h5>
             <span>✅</span>
           </li>
         </ul>
-        <a href="#" class="btn btn-primary">All queries</a>
+        <Loader v-else />
+        <RouterLink to="/habr/query" class="btn btn-primary float-end">
+          All queries
+        </RouterLink>
       </div>
     </div>
     <div class="card mt-2">
@@ -57,5 +64,3 @@ onMounted(async () => {
     </div>
   </div>
 </template>
-
-<style></style>

@@ -4,19 +4,19 @@ import { RouterLink } from "vue-router";
 const links = [
   {
     name: "Overview",
-    href: "habr",
+    href: "/habr",
   },
   {
     name: "Managers",
-    href: "habrManagers",
+    href: "/habr/manager",
   },
   {
     name: "Queries",
-    href: "habrQueries",
+    href: "/habr/query",
   },
   {
     name: "Candidates",
-    href: "habrCandidates",
+    href: "/habr/candidate",
   },
 ];
 </script>
