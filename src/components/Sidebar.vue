@@ -1,9 +1,38 @@
 <script setup>
 import { onMounted } from "vue";
-import { RouterLink } from "vue-router";
+import { RouterLink, useRoute, useRouter } from "vue-router";
 import { useUserStore } from "../stores/userStore";
 
 const user = useUserStore();
+
+const route = useRoute();
+
+const navLinks = [
+  {
+    href: "/",
+    name: "Home",
+    logo: "/src/assets/icons/home.png",
+  },
+  {
+    href: "/github",
+    name: "Github",
+    logo: "/src/assets/icons/github.png",
+  },
+  {
+    href: "/habr",
+    name: "Habr",
+    logo: "/src/assets/icons/habr.png",
+  },
+  {
+    href: "/about",
+    name: "About",
+    logo: "/src/assets/icons/info.png",
+  },
+];
+
+const isParentNav = (value) => {
+  return route.meta.parent && route.meta.parent === value.toLowerCase();
+};
 
 onMounted(() => {
   const tooltipTriggerList = Array.from(
@@ -32,56 +61,18 @@ onMounted(() => {
       <span class="visually-hidden">Icon-only</span>
     </a>
     <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
-      <li class="nav-item">
+      <li v-for="link in navLinks" class="nav-item" :key="link.name">
         <RouterLink
-          to="/"
+          :to="link.href"
           class="nav-link py-3 border-bottom rounded-0"
+          :class="isParentNav(link.name) && 'router-link-active'"
           aria-current="page"
           data-bs-toggle="tooltip"
           data-bs-placement="right"
-          title="Home"
+          :title="link.name"
         >
           <div class="sidebar-logo">
-            <img src="../assets/icons/home.png" alt="Home" />
-          </div>
-        </RouterLink>
-      </li>
-      <li>
-        <RouterLink
-          to="/github"
-          class="nav-link py-3 border-bottom rounded-0"
-          data-bs-toggle="tooltip"
-          data-bs-placement="right"
-          title="Github"
-        >
-          <div class="sidebar-logo">
-            <img src="../assets/icons/github.png" alt="Github" />
-          </div>
-        </RouterLink>
-      </li>
-      <li>
-        <RouterLink
-          to="/habr"
-          class="nav-link py-3 border-bottom rounded-0"
-          data-bs-toggle="tooltip"
-          data-bs-placement="right"
-          title="Habr"
-        >
-          <div class="sidebar-logo">
-            <img src="../assets/icons/habr.png" alt="Habr" />
-          </div>
-        </RouterLink>
-      </li>
-      <li>
-        <RouterLink
-          to="/about"
-          class="nav-link py-3 border-bottom rounded-0"
-          data-bs-toggle="tooltip"
-          data-bs-placement="right"
-          title="About"
-        >
-          <div class="sidebar-logo">
-            <img src="../assets/icons/info.png" alt="Info" />
+            <img :src="link.logo" :alt="link.name" />
           </div>
         </RouterLink>
       </li>

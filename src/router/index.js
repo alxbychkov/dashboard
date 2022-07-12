@@ -32,19 +32,19 @@ const router = createRouter({
     {
       path: '/habr/manager',
       name: 'habrManages',
-      meta: {requiresAuth: true},
+      meta: {requiresAuth: true, parent: 'habr'},
       component: () => import('../views/habr/HabrManagerView.vue')
     },
     {
       path: '/habr/query',
       name: 'habrQueries',
-      meta: {requiresAuth: true},
+      meta: {requiresAuth: true, parent: 'habr'},
       component: () => import('../views/habr/HabrQueriesView.vue')
     },
     {
       path: '/habr/candidates',
       name: 'habrCandidates',
-      meta: {requiresAuth: true},
+      meta: {requiresAuth: true, parent: 'habr'},
       component: () => import('../views/habr/HabrCandidateView.vue')
     },
     {

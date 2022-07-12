@@ -16,7 +16,7 @@ const links = [
   },
   {
     name: "Candidates",
-    href: "/habr/candidate",
+    href: "/habr/candidates",
   },
 ];
 </script>
