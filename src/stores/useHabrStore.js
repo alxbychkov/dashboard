@@ -29,12 +29,20 @@ export const useHabrStore = defineStore('habrStore', {
                 console.error('Error: ', error);
             }
         },
-        async updateManager() {},
+        async updateManager(value) {
+            const updatedManager = this.managers.values.find(m => m._id === value._id);
+            if (updatedManager) {
+                Object.keys(updatedManager).forEach(k => {
+                    if (updatedManager[k] !== value[k]) updatedManager[k] = value[k];
+                });
+            }
+        },
         async deleteManager(id) {
-            console.log('delete: ', id);
             this.managers.values = this.managers.values.filter(m => m._id !== id);
         },
-        async addManager() {},
+        async addManager(value) {
+            this.managers.values.push(value);
+        },
         async getQueries() {
             try {
                 const response = await axios.get('query');
@@ -46,5 +54,14 @@ export const useHabrStore = defineStore('habrStore', {
             }
         }
     },
+    getters: {
+        getActiveManagers() {
+            return this.managers.values.filter((m) => m.isActive);
+        },
+
+        getActiveQueries() {
+            return this.queries.values.filter((q) => q.isActive);
+        }
+    }
 });
 

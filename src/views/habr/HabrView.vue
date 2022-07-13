@@ -1,21 +1,17 @@
 <script setup>
-import { onBeforeMount, onMounted, ref } from "vue";
+import { onBeforeMount, onMounted } from "vue";
 import HabrNav from "./HabrNav.vue";
 import Loader from "../../components/Loader.vue";
-import { useHabrStore } from "../../stores/useHabrStore.js";
+import { useHabrManagerStore, useHabrQueryStore } from "../../stores/habr";
 
 const DAILY_LOG_LINK = "https://habr.atcon.ru/scarper/logs/";
 
-const habr = useHabrStore();
-const activeManagers = ref([]);
-const activeQueries = ref([]);
+const habrManager = useHabrManagerStore();
+const habrQuery = useHabrQueryStore();
 
 onBeforeMount(async () => {
-  habr.managers.isLoaded || (await habr.getManagers());
-  habr.queries.isLoaded || (await habr.getQueries());
-
-  activeManagers.value = habr.managers.values.filter((m) => m.isActive);
-  activeQueries.value = habr.queries.values.filter((q) => q.isActive);
+  habrManager.isLoaded || (await habrManager.getManagers());
+  habrQuery.isLoaded || (await habrQuery.getQueries());
 });
 
 onMounted(async () => {});
@@ -30,9 +26,9 @@ onMounted(async () => {});
     </div>
     <div class="card">
       <div class="card-header">Active manager:</div>
-      <div v-if="activeManagers.length" class="card-body">
+      <div v-if="habrManager.getActiveManagers.length" class="card-body">
         <h5
-          v-for="manager in activeManagers"
+          v-for="manager in habrManager.getActiveManagers"
           class="card-title"
           :key="manager._id"
         >
@@ -46,9 +42,9 @@ onMounted(async () => {});
     <div class="card mt-2">
       <div class="card-header">Active queries:</div>
       <div class="card-body">
-        <ul v-if="activeQueries.length" class="list-group mb-3">
+        <ul v-if="habrQuery.getActiveQueries.length" class="list-group mb-3">
           <li
-            v-for="query in activeQueries"
+            v-for="query in habrQuery.getActiveQueries"
             class="list-group-item d-flex justify-content-between align-items-center"
             :key="query._id"
           >
