@@ -10,8 +10,8 @@ const habrManager = useHabrManagerStore();
 const habrQuery = useHabrQueryStore();
 
 onBeforeMount(async () => {
-  habrManager.isLoaded || (await habrManager.getManagers());
-  habrQuery.isLoaded || (await habrQuery.getQueries());
+  habrManager.isLoaded || (await habrManager.get());
+  habrQuery.isLoaded || (await habrQuery.get());
 });
 
 onMounted(async () => {});
@@ -26,9 +26,9 @@ onMounted(async () => {});
     </div>
     <div class="card">
       <div class="card-header">Active manager:</div>
-      <div v-if="habrManager.getActiveManagers.length" class="card-body">
+      <div v-if="habrManager.getActive.length" class="card-body">
         <h5
-          v-for="manager in habrManager.getActiveManagers"
+          v-for="manager in habrManager.getActive"
           class="card-title"
           :key="manager._id"
         >
@@ -42,9 +42,9 @@ onMounted(async () => {});
     <div class="card mt-2">
       <div class="card-header">Active queries:</div>
       <div class="card-body">
-        <ul v-if="habrQuery.getActiveQueries.length" class="list-group mb-3">
+        <ul v-if="habrQuery.getActive.length" class="list-group mb-3">
           <li
-            v-for="query in habrQuery.getActiveQueries"
+            v-for="query in habrQuery.getActive"
             class="list-group-item d-flex justify-content-between align-items-center"
             :key="query._id"
           >

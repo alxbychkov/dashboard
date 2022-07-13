@@ -1,51 +1,51 @@
 <script setup>
-import { useHabrManagerStore } from "../../../stores/habr";
+import { useHabrQueryStore } from "../../../stores/habr";
 
-const habrManager = useHabrManagerStore();
+const habrQuery = useHabrQueryStore();
 
 const props = defineProps({
-  manager: Object,
+  query: Object,
 });
 
-const updateManagerHandler = (value) => {
-  habrManager.update(props.manager);
+const updateQueryHandler = (value) => {
+  habrQuery.update(props.query);
   closeModal();
 };
 
-const deleteManagerHandler = (value) => {
-  habrManager.delete(props.manager._id);
+const deleteQueryHandler = (value) => {
+  habrQuery.delete(props.query._id);
   closeModal();
 };
 
-const addManagerHandler = (value) => {
-  props.manager.isActive = false;
-  props.manager._id = new Date().getTime();
-  habrManager.add(props.manager);
+const addQueryHandler = (value) => {
+  props.query.isActive = false;
+  props.query._id = new Date().getTime();
+  habrQuery.add(props.query);
   closeModal();
 };
 
 const closeModal = () => {
-  bootstrap.Modal.getInstance(habrManagerModal).hide();
+  bootstrap.Modal.getInstance(habrQueryModal).hide();
 };
 
-const setManager = () => {
-  props.manager.isActive = !props.manager.isActive;
+const setQuery = () => {
+  props.query.isActive = !props.query.isActive;
 };
 </script>
 <template>
   <div
     class="modal fade"
-    id="habrManagerModal"
+    id="habrQueryModal"
     tabindex="-1"
-    aria-labelledby="habrManagerModalLabel"
+    aria-labelledby="habrQueryModalLabel"
     aria-hidden="true"
-    ref="habrManagerModal"
+    ref="habrQueryModal"
   >
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="habrManagerModalLabel">
-            {{ manager._id ? "Update manager" : "New manager" }}
+          <h5 class="modal-title" id="habrQueryModalLabel">
+            {{ query._id ? "Update query" : "New query" }}
           </h5>
           <button
             type="button"
@@ -57,60 +57,60 @@ const setManager = () => {
         </div>
         <div class="modal-body">
           <form>
-            <input type="hidden" v-model="manager._id" />
+            <input type="hidden" v-model="query._id" />
             <input
               type="text"
               class="form-control mb-2"
               placeholder="Query_id"
-              v-model="manager.query_id"
+              v-model="query.query_id"
             />
             <input
               type="text"
               class="form-control mb-2"
               placeholder="Name"
-              v-model="manager.name"
-            />
-            <input
-              type="email"
-              class="form-control mb-2"
-              placeholder="Login"
-              v-model="manager.login"
+              v-model="query.name"
             />
             <input
               type="text"
               class="form-control mb-2"
-              placeholder="Password"
-              v-model="manager.password"
+              placeholder="Salary"
+              v-model="query.salary"
+            />
+            <input
+              type="text"
+              class="form-control mb-2"
+              placeholder="Filter"
+              v-model="query.filter"
             />
             <div
-              v-if="manager.isActive !== ''"
+              v-if="query.isActive !== ''"
               class="form-check form-switch form-check-reverse"
             >
               <input
                 class="form-check-input"
                 type="checkbox"
-                id="isActiveManager"
-                @change="setManager"
-                :checked="manager.isActive"
+                id="isActiveQuery"
+                @change="setQuery"
+                :checked="query.isActive"
               />
-              <label class="form-check-label me-2" for="isActiveManager"
+              <label class="form-check-label me-2" for="isActiveQuery"
                 >Active:
               </label>
             </div>
           </form>
         </div>
-        <div v-if="manager._id" class="modal-footer">
+        <div v-if="query._id" class="modal-footer">
           <button
             type="button"
             class="btn btn-danger"
-            @click="deleteManagerHandler"
+            @click="deleteQueryHandler"
           >
             Delete
           </button>
           <button
             type="button"
             class="btn btn-success"
-            @click="updateManagerHandler"
+            @click="updateQueryHandler"
           >
             Update
           </button>
@@ -119,7 +119,7 @@ const setManager = () => {
           <button
             type="button"
             class="btn btn-primary"
-            @click="addManagerHandler"
+            @click="addQueryHandler"
           >
             Add
           </button>

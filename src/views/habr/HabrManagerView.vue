@@ -48,7 +48,7 @@ const setManager = (value = INITIAL_MANAGER) => {
           v-for="manager in managers"
           :key="manager._id"
           data-bs-toggle="modal"
-          data-bs-target="#habrModal"
+          data-bs-target="#habrManagerModal"
           @click="setManager(manager)"
         >
           <th scope="row">💼</th>
@@ -63,7 +63,7 @@ const setManager = (value = INITIAL_MANAGER) => {
       <button
         class="btn btn-success"
         data-bs-toggle="modal"
-        data-bs-target="#habrModal"
+        data-bs-target="#habrManagerModal"
         @click="setManager()"
       >
         New manager

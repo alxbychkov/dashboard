@@ -1,15 +1,27 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { toRef, ref } from "vue";
 import HabrNav from "./HabrNav.vue";
 import Loader from "../../components/Loader.vue";
-import { useHabrStore } from "../../stores/useHabrStore";
+import { useHabrQueryStore } from "../../stores/habr";
+import QueryModal from "../../components/modals/habr/QueryModal.vue";
 
-const habr = useHabrStore();
-const queries = ref([]);
+const INITIAL_QUERY = {
+  _id: "",
+  query_id: "",
+  name: "",
+  salary: "",
+  filter: "",
+  isActive: "",
+};
 
-onMounted(async () => {
-  queries.value = habr.queries.values;
-});
+const habrQuery = useHabrQueryStore();
+const queries = toRef(habrQuery, "queries");
+
+const query = ref(INITIAL_QUERY);
+
+const setQuery = (value = INITIAL_QUERY) => {
+  query.value = { ...value };
+};
 </script>
 <template>
   <div class="h4 pb-2 mb-4 text-success border-bottom border-success">
@@ -30,7 +42,13 @@ onMounted(async () => {
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(query, index) in queries" :key="query._id">
+        <tr
+          v-for="(query, index) in queries"
+          :key="query._id"
+          data-bs-toggle="modal"
+          data-bs-target="#habrQueryModal"
+          @click="setQuery(query)"
+        >
           <th scope="row">{{ index + 1 }}</th>
           <td>{{ query.name }}</td>
           <td>
@@ -42,7 +60,15 @@ onMounted(async () => {
     </table>
     <Loader v-else />
     <div class="mt-3 d-flex justify-content-end">
-      <button class="btn btn-success">New query</button>
+      <button
+        class="btn btn-success"
+        data-bs-toggle="modal"
+        data-bs-target="#habrQueryModal"
+        @click="setQuery()"
+      >
+        New query
+      </button>
     </div>
   </div>
+  <QueryModal :query="query" />
 </template>

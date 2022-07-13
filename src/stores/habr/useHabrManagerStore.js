@@ -9,7 +9,7 @@ export const useHabrStore = defineStore('habrManagerStore', {
         }
     },
     actions: {
-        async getManagers() {
+        async get() {
             try {
                 const response = await axios.get('manager');
                 this.managers = response.data.managers;
@@ -18,7 +18,7 @@ export const useHabrStore = defineStore('habrManagerStore', {
                 console.error('Error: ', error);
             }
         },
-        async updateManager(value) {
+        async update(value) {
             const updatedManager = this.managers.find(m => m._id === value._id);
             if (updatedManager) {
                 Object.keys(updatedManager).forEach(k => {
@@ -26,15 +26,15 @@ export const useHabrStore = defineStore('habrManagerStore', {
                 });
             }
         },
-        async deleteManager(id) {
+        async delete(id) {
             this.managers = this.managers.filter(m => m._id !== id);
         },
-        async addManager(value) {
+        async add(value) {
             this.managers.push(value);
         }
     },
     getters: {
-        getActiveManagers() {
+        getActive() {
             return this.managers.filter((m) => m.isActive);
         }
     }
