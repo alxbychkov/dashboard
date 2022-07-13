@@ -4,6 +4,9 @@ import Navbar from "./components/Navbar.vue";
 import Sidebar from "./components/Sidebar.vue";
 import Footer from "./components/Footer.vue";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle.js";
+import { useUserStore } from "./stores/userStore";
+
+const user = useUserStore();
 </script>
 
 <template>
@@ -11,7 +14,16 @@ import "../node_modules/bootstrap/dist/js/bootstrap.bundle.js";
   <Sidebar />
   <main class="main">
     <div class="container">
-      <RouterView />
+      <div v-if="!user.isAuth" class="d-flex justify-content-center">
+        <div
+          class="spinner-grow"
+          style="width: 3rem; height: 3rem"
+          role="status"
+        >
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+      <RouterView v-else />
     </div>
   </main>
 </template>
@@ -24,8 +36,10 @@ body,
   min-height: 100vh;
 }
 
-.main {
+aside + .main {
   margin-left: 4.5rem;
+}
+.main {
   padding: 50px 20px;
 }
 </style>

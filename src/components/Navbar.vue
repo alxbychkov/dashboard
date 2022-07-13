@@ -32,11 +32,6 @@ const logout = () => {
             <RouterLink to="/" class="nav-link px-2 text-white"
               >Home</RouterLink
             >
-          </li>
-          <li>
-            <RouterLink to="/about" class="nav-link px-2 text-white"
-              >About</RouterLink
-            >
           </li> -->
         </ul>
 

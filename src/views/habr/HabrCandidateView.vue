@@ -1,22 +1,18 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { toRef } from "vue";
 import HabrNav from "./HabrNav.vue";
 import Loader from "../../components/Loader.vue";
-import { useHabrStore } from "../../stores/useHabrStore";
+import { useHabrCandidateStore } from "../../stores/habr";
 
-const habr = useHabrStore();
-const candidates = ref([]);
+const habrCandidate = useHabrCandidateStore();
+let candidates = toRef(habrCandidate, "isLoaded");
 
 const loadUserHandler = () => {
-  candidates.value.isLoaded = !candidates.value.isLoaded;
+  candidates = !candidates;
   setTimeout(() => {
-    candidates.value.isLoaded = !candidates.value.isLoaded;
+    candidates = !candidates;
   }, 2000);
 };
-
-onMounted(async () => {
-  candidates.value = habr.candidates.values;
-});
 </script>
 <template>
   <div class="h4 pb-2 mb-4 text-success border-bottom border-success">

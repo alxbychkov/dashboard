@@ -50,6 +50,7 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
+      meta: {requiresAuth: false},
       component: () => import('../views/LoginView.vue')
     }
   ]
@@ -64,6 +65,8 @@ router.beforeEach(async (to, from, next) => {
 
   if (to.meta.requiresAuth && !user.isAuth) {
     next('/login');
+  } else if (to.name === 'login' && user.isAuth) {
+    next('/');
   } else {
     next();
   }

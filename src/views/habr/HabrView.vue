@@ -26,7 +26,10 @@ onMounted(async () => {});
     </div>
     <div class="card">
       <div class="card-header">Active manager:</div>
-      <div v-if="habrManager.getActive.length" class="card-body">
+      <div v-if="!habrManager.managers.length" class="card-body">
+        <Loader />
+      </div>
+      <div v-else-if="habrManager.getActive.length" class="card-body">
         <h5
           v-for="manager in habrManager.getActive"
           class="card-title"
@@ -36,13 +39,14 @@ onMounted(async () => {});
         </h5>
       </div>
       <div v-else class="card-body">
-        <Loader />
+        <h5 class="card-title text-center">No active managers... 😐</h5>
       </div>
     </div>
     <div class="card mt-2">
       <div class="card-header">Active queries:</div>
       <div class="card-body">
-        <ul v-if="habrQuery.getActive.length" class="list-group mb-3">
+        <Loader v-if="!habrQuery.queries.length" />
+        <ul v-else-if="habrQuery.getActive.length" class="list-group mb-3">
           <li
             v-for="query in habrQuery.getActive"
             class="list-group-item d-flex justify-content-between align-items-center"
@@ -52,7 +56,7 @@ onMounted(async () => {});
             <span>✅</span>
           </li>
         </ul>
-        <Loader v-else />
+        <h5 v-else class="card-title text-center">No active queries... 😢</h5>
         <RouterLink to="/habr/query" class="btn btn-primary float-end">
           All queries
         </RouterLink>
