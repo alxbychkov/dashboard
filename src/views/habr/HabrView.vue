@@ -26,8 +26,13 @@ onMounted(async () => {});
     </div>
     <div class="card">
       <div class="card-header">Active manager:</div>
-      <div v-if="!habrManager.managers.length" class="card-body">
+      <div v-if="!habrManager.isLoaded" class="card-body">
         <Loader />
+      </div>
+      <div v-else-if="!habrManager.managers.length" class="card-body">
+        <h5 class="card-title text-center">
+          Couldn't load managers: (server error)... 😔
+        </h5>
       </div>
       <div v-else-if="habrManager.getActive.length" class="card-body">
         <h5

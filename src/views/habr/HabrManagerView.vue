@@ -1,5 +1,5 @@
 <script setup>
-import { ref, toRef } from "vue";
+import { onBeforeMount, ref, toRef } from "vue";
 import HabrNav from "./HabrNav.vue";
 import Loader from "../../components/Loader.vue";
 import ManagerModal from "../../components/modals/habr/ManagerModal.vue";
@@ -24,6 +24,10 @@ const manager = ref(INITIAL_MANAGER);
 const setManager = (value = INITIAL_MANAGER) => {
   manager.value = { ...value };
 };
+
+onBeforeMount(async () => {
+  habrManager.isLoaded || (await habrManager.get());
+});
 </script>
 <template>
   <div class="h4 pb-2 mb-4 text-success border-bottom border-success">

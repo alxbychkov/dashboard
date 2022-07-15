@@ -12,15 +12,15 @@ const updateManagerHandler = (value) => {
   closeModal();
 };
 
-const deleteManagerHandler = (value) => {
-  habrManager.delete(props.manager._id);
+const deleteManagerHandler = () => {
+  const { _id } = { ...props.manager };
+  habrManager.delete({ _id });
   closeModal();
 };
 
-const addManagerHandler = (value) => {
-  props.manager.isActive = false;
-  props.manager._id = new Date().getTime();
-  habrManager.add(props.manager);
+const addManagerHandler = () => {
+  const { query_id, name, login, password } = { ...props.manager };
+  habrManager.add({ query_id, name, login, password });
   closeModal();
 };
 

@@ -16,21 +16,32 @@ export const useHabrStore = defineStore('habrManagerStore', {
                 this.isLoaded = true;
             } catch (error) {
                 console.error('Error: ', error);
+                this.isLoaded = true;
             }
         },
         async update(value) {
-            const updatedManager = this.managers.find(m => m._id === value._id);
-            if (updatedManager) {
-                Object.keys(updatedManager).forEach(k => {
-                    if (updatedManager[k] !== value[k]) updatedManager[k] = value[k];
-                });
+            try {
+                const response = await axios.put('manager', value);
+                if (response.data.manager) this.get();
+            } catch (error) {
+                console.error('Error: ', error);
             }
         },
-        async delete(id) {
-            this.managers = this.managers.filter(m => m._id !== id);
+        async delete(value) {
+            try {
+                const response = await axios.delete('manager', {data: value});
+                if (response.data.deleted.deletedCount) this.get();
+            } catch (error) {
+                console.error('Error: ', error);
+            }
         },
         async add(value) {
-            this.managers.push(value);
+            try {
+                const response = await axios.post('manager', value);
+                if (response.data.manager) this.get();
+            } catch (error) {
+                console.error('Error: ', error);
+            }
         }
     },
     getters: {
@@ -39,4 +50,3 @@ export const useHabrStore = defineStore('habrManagerStore', {
         }
     }
 });
-
