@@ -7,7 +7,7 @@ const props = defineProps({
   manager: Object,
 });
 
-const updateManagerHandler = (value) => {
+const updateManagerHandler = () => {
   habrManager.update(props.manager);
   closeModal();
 };

@@ -7,20 +7,21 @@ const props = defineProps({
   query: Object,
 });
 
-const updateQueryHandler = (value) => {
+const updateQueryHandler = () => {
   habrQuery.update(props.query);
   closeModal();
 };
 
-const deleteQueryHandler = (value) => {
-  habrQuery.delete(props.query._id);
+const deleteQueryHandler = () => {
+  const { _id } = { ...props.query };
+  habrQuery.delete({ _id });
   closeModal();
 };
 
-const addQueryHandler = (value) => {
-  props.query.isActive = false;
-  props.query._id = new Date().getTime();
-  habrQuery.add(props.query);
+const addQueryHandler = () => {
+  console.log(props.query);
+  const { query_id, name, salary, filter } = { ...props.query };
+  habrQuery.add({ query_id, name, salary, filter });
   closeModal();
 };
 

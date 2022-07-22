@@ -1,5 +1,5 @@
 <script setup>
-import { toRef, ref } from "vue";
+import { toRef, ref, onBeforeMount } from "vue";
 import HabrNav from "./HabrNav.vue";
 import Loader from "../../components/Loader.vue";
 import { useHabrQueryStore } from "../../stores/habr";
@@ -11,6 +11,7 @@ const INITIAL_QUERY = {
   name: "",
   salary: "",
   filter: "",
+  text: "",
   isActive: "",
 };
 
@@ -22,6 +23,10 @@ const query = ref(INITIAL_QUERY);
 const setQuery = (value = INITIAL_QUERY) => {
   query.value = { ...value };
 };
+
+onBeforeMount(async () => {
+  habrQuery.isLoaded || (await habrQuery.get());
+});
 </script>
 <template>
   <div class="h4 pb-2 mb-4 text-success border-bottom border-success">
