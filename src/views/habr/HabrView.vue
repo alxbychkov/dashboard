@@ -17,19 +17,70 @@ onBeforeMount(async () => {
   proccessList.isLoaded || (await proccessList.get());
 });
 
-onMounted(async () => {
-  console.log("List: ", proccessList.list);
-});
+onMounted(async () => {});
 </script>
 <template>
   <div class="h4 pb-2 mb-4 text-success border-bottom border-success">Habr</div>
   <HabrNav />
   <div class="bord border border-secondary p-3 rounded mt-4">
-    <div class="mb-3 d-flex justify-content-end">
-      <button class="btn btn-success me-1" disabled>Start daily</button>
-      <button class="btn btn-danger" disabled>Stop daily</button>
-    </div>
     <div class="card">
+      <div class="card-header">Proccess status:</div>
+      <div v-if="!proccessList.isLoaded" class="card-body">
+        <Loader />
+      </div>
+      <div v-else-if="!proccessList.list.length" class="card-body">
+        <h5 class="card-title text-center">
+          Couldn't load proccesses: (server error)... 😔
+        </h5>
+      </div>
+      <div v-else-if="proccessList.list" class="card-body">
+        <ul class="list-group mb-3">
+          <li
+            v-for="list in proccessList.list"
+            class="list-group-item d-flex justify-content-between align-items-center"
+            :key="list.pid"
+          >
+            <h5 class="card-title">
+              🖥️ {{ list.name }} (<span
+                :class="
+                  list.status === 'online' ? 'text-success' : 'text-danger'
+                "
+                >{{ list.status }}</span
+              >)
+            </h5>
+            <div>
+              (CPU: {{ list.monit.cpu }} Memory: {{ list.monit.memory }})
+            </div>
+            <div>
+              <button
+                class="btn btn-success me-1"
+                :disabled="list.status === 'online'"
+              >
+                Start
+              </button>
+              <button
+                class="btn btn-info me-1 text-white"
+                :disabled="list.status === 'offline'"
+              >
+                Restart
+              </button>
+              <button
+                class="btn btn-danger"
+                :disabled="list.status === 'stopped'"
+              >
+                Stop
+              </button>
+            </div>
+          </li>
+        </ul>
+        <div class="mb-3 d-flex justify-content-end">
+          <button class="btn btn-secondary" @click="proccessList.refresh()">
+            Refresh
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="card mt-2">
       <div class="card-header">Active manager:</div>
       <div v-if="!habrManager.isLoaded" class="card-body">
         <Loader />

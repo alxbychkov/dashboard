@@ -12,13 +12,23 @@ export const useProccessStore = defineStore('serverProccessStore', {
         async get() {
             try {
                 const response = await axios.post('pm2/list');
-                this.list = response.data;
+                this.list = response.data.list;
                 this.isLoaded = true;
             } catch (error) {
                 console.error('Error: ', error);
                 this.isLoaded = true;
             }
         },
-    },
-    getters: {}
+        async refresh() {
+            this.isLoaded = false;
+            try {
+                const response = await axios.post('pm2/list');
+                this.list = response.data.list;
+            } catch (error) {
+                console.error('Error: ', error);
+            } finally {
+                this.isLoaded = true;
+            }
+        }
+    }
 });
