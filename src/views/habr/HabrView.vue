@@ -3,18 +3,23 @@ import { onBeforeMount, onMounted } from "vue";
 import HabrNav from "./HabrNav.vue";
 import Loader from "../../components/Loader.vue";
 import { useHabrManagerStore, useHabrQueryStore } from "../../stores/habr";
+import { useProccessStore } from "../../stores/server/useProccessStore";
 
 const DAILY_LOG_LINK = "https://habr.atcon.ru/scarper/logs/";
 
 const habrManager = useHabrManagerStore();
 const habrQuery = useHabrQueryStore();
+const proccessList = useProccessStore();
 
 onBeforeMount(async () => {
   habrManager.isLoaded || (await habrManager.get());
   habrQuery.isLoaded || (await habrQuery.get());
+  proccessList.isLoaded || (await proccessList.get());
 });
 
-onMounted(async () => {});
+onMounted(async () => {
+  console.log("List: ", proccessList.list);
+});
 </script>
 <template>
   <div class="h4 pb-2 mb-4 text-success border-bottom border-success">Habr</div>
