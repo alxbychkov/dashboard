@@ -35,8 +35,9 @@ onBeforeMount(async () => {
   </div>
   <HabrNav />
   <div class="bord border border-secondary p-3 rounded mt-4">
+    <Loader v-if="!habrManager.isLoaded" />
     <table
-      v-if="managers.length"
+      v-else-if="managers.length"
       class="table table-striped table-success table-hover border rounded mb-0"
     >
       <thead>
@@ -62,7 +63,9 @@ onBeforeMount(async () => {
         </tr>
       </tbody>
     </table>
-    <Loader v-else />
+    <h5 v-else class="card-title text-center">
+      No managers (something went wrong) 🤷
+    </h5>
     <div class="mt-3 d-flex justify-content-end">
       <button
         class="btn btn-success"

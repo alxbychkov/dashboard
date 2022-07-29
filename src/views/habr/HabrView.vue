@@ -121,7 +121,13 @@ onMounted(async () => {});
     <div class="card mt-2">
       <div class="card-header">Active queries:</div>
       <div class="card-body">
-        <Loader v-if="!habrQuery.queries.length" />
+        <Loader v-if="!habrQuery.isLoaded" />
+        <h5
+          v-else-if="!habrQuery.queries.length"
+          class="card-title text-center"
+        >
+          Couldn't load queries: (server error)... 😔
+        </h5>
         <ul v-else-if="habrQuery.getActive.length" class="list-group mb-3">
           <li
             v-for="query in habrQuery.getActive"
