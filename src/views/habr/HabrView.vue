@@ -17,6 +17,18 @@ onBeforeMount(async () => {
   proccessList.isLoaded || (await proccessList.get());
 });
 
+const restartProccessHandler = (id) => {
+  proccessList.restart(id);
+};
+
+const reloadProccessHandler = (id) => {
+  proccessList.reload(id);
+};
+
+const stopProccessHandler = (id) => {
+  proccessList.stop(id);
+};
+
 onMounted(async () => {});
 </script>
 <template>
@@ -55,18 +67,21 @@ onMounted(async () => {});
               <button
                 class="btn btn-success me-1"
                 :disabled="list.status === 'online'"
+                @click="restartProccessHandler(list.name)"
               >
                 Start
               </button>
               <button
                 class="btn btn-info me-1 text-white"
-                :disabled="list.status === 'offline'"
+                :disabled="list.status === 'stopped'"
+                @click="reloadProccessHandler(list.name)"
               >
                 Restart
               </button>
               <button
                 class="btn btn-danger"
                 :disabled="list.status === 'stopped'"
+                @click="stopProccessHandler(list.name)"
               >
                 Stop
               </button>

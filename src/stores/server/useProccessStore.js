@@ -29,6 +29,48 @@ export const useProccessStore = defineStore('serverProccessStore', {
             } finally {
                 this.isLoaded = true;
             }
+        },
+        async stop(id) {
+            this.isLoaded = false;
+            try {
+                const response = await axios.post('pm2/stop', {id});
+
+                if (response.data.status === 'ok') {
+                    await this.refresh();
+                }
+            } catch (error) {
+                console.error('Error: ', error);
+            } finally {
+                this.isLoaded = true;
+            }
+        },
+        async restart(id) {
+            this.isLoaded = false;
+            try {
+                const response = await axios.post('pm2/restart', {id});
+
+                if (response.data.status === 'ok') {
+                    await this.refresh();
+                }
+            } catch (error) {
+                console.error('Error: ', error);
+            } finally {
+                this.isLoaded = true;
+            }
+        },
+        async reload(id) {
+            this.isLoaded = false;
+            try {
+                const response = await axios.post('pm2/reload', {id});
+
+                if (response.data.status === 'ok') {
+                    await this.refresh();
+                }
+            } catch (error) {
+                console.error('Error: ', error);
+            } finally {
+                this.isLoaded = true;
+            }
         }
     }
 });
