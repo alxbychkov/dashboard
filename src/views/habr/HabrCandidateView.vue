@@ -2,14 +2,22 @@
 import { toRef, ref } from "vue";
 import HabrNav from "./HabrNav.vue";
 import { useHabrCandidateStore } from "../../stores/habr";
+import Pagination from "../../components/Pagination.vue";
 
 const habrCandidate = useHabrCandidateStore();
-let candidates = toRef(habrCandidate, "candidates");
-let isLoading = ref(false);
+const candidates = toRef(habrCandidate, "candidates");
+const currentPage = toRef(habrCandidate, "page");
 
-const loadUserHandler = async () => {
+let isLoading = ref(false);
+const count = ref(10);
+
+const changeCountHandler = (value) => {
+  count.value = value;
+};
+
+const loadUserHandler = async (page) => {
   isLoading.value = true;
-  await habrCandidate.get();
+  await habrCandidate.get(page, count.value);
   isLoading.value = false;
 };
 </script>
@@ -19,9 +27,59 @@ const loadUserHandler = async () => {
   </div>
   <HabrNav />
   <div class="bord border border-secondary p-3 rounded mt-4">
+    <div class="mb-3 d-flex justify-content-between">
+      <div class="btn-group" role="group" aria-label="Count candidates">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          :class="count === 10 ? 'btn-warning' : ''"
+          @click="changeCountHandler(10)"
+        >
+          10
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          :class="count === 50 ? 'btn-warning' : ''"
+          @click="changeCountHandler(50)"
+        >
+          50
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          :class="count === 100 ? 'btn-warning' : ''"
+          @click="changeCountHandler(100)"
+        >
+          100
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          :class="count === 500 ? 'btn-warning' : ''"
+          @click="changeCountHandler(500)"
+        >
+          500
+        </button>
+      </div>
+      <button
+        class="btn btn-success"
+        type="button"
+        :disabled="habrCandidate.isLoaded"
+        @click="loadUserHandler(1)"
+      >
+        <span
+          v-if="isLoading"
+          class="spinner-border spinner-border-sm"
+          role="status"
+          aria-hidden="true"
+        ></span>
+        {{ isLoading ? "Loading..." : "Load users" }}
+      </button>
+    </div>
     <table
       v-if="candidates.length"
-      class="table table-hover border rounded mb-0"
+      class="table table-hover border rounded mb-3"
     >
       <thead>
         <tr>
@@ -46,21 +104,11 @@ const loadUserHandler = async () => {
         </tr>
       </tbody>
     </table>
-    <div class="mt-3 d-flex justify-content-end">
-      <button
-        class="btn btn-success"
-        type="button"
-        :disabled="habrCandidate.isLoaded"
-        @click="loadUserHandler"
-      >
-        <span
-          v-if="isLoading"
-          class="spinner-border spinner-border-sm"
-          role="status"
-          aria-hidden="true"
-        ></span>
-        {{ isLoading ? "Loading..." : "Load users" }}
-      </button>
-    </div>
+    <Pagination
+      v-if="habrCandidate.page"
+      :page="currentPage"
+      :pages="habrCandidate.pages"
+      @onPaginate="loadUserHandler"
+    />
   </div>
 </template>

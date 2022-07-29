@@ -16,7 +16,7 @@ export const useHabrStore = defineStore('habrCandidateStore', {
                 const response = await axios.post('candidate', {page, limit});
         
                 this.page = response.data.candidates.page;
-                this.pages = response.data.candidates.count;
+                this.pages = response.data.candidates.pages;
                 this.candidates = response.data.candidates.values;
                 this.isLoaded = true;
             } catch (error) {
