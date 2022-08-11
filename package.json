@@ -7,6 +7,7 @@
     "preview": "vite preview --port 4173"
   },
   "dependencies": {
+    "@vueup/vue-quill": "^1.0.0-beta.9",
     "axios": "^0.27.2",
     "bootstrap": "^5.2.0-beta1",
     "pinia": "^2.0.14",

@@ -1,5 +1,7 @@
 <script setup>
 import { useHabrQueryStore } from "../../../stores/habr";
+import { QuillEditor } from "@vueup/vue-quill";
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 const habrQuery = useHabrQueryStore();
 
@@ -83,6 +85,7 @@ const setQuery = () => {
               placeholder="Filter"
               v-model="query.filter"
             />
+            <QuillEditor toolbar="minimal" contentType="text" v-model:content="query.text" :content="query.text" placeholder="Message text..."/>
             <div
               v-if="query.isActive !== ''"
               class="form-check form-switch form-check-reverse"
