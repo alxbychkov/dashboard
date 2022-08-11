@@ -2,7 +2,7 @@
 import { useHabrQueryStore } from "../../../stores/habr";
 import { QuillEditor } from "@vueup/vue-quill";
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
-import { onMounted } from "@vue/runtime-core";
+import { onBeforeUnmount, onMounted } from "@vue/runtime-core";
 
 const habrQuery = useHabrQueryStore();
 
@@ -22,14 +22,9 @@ const deleteQueryHandler = () => {
 };
 
 const addQueryHandler = () => {
-  console.log(props.query);
   const { query_id, name, salary, filter } = { ...props.query };
   habrQuery.add({ query_id, name, salary, filter });
   closeModal();
-};
-
-const closeModal = () => {
-  bootstrap.Modal.getInstance(habrQueryModal).hide();
 };
 
 const setQuery = () => {
@@ -38,14 +33,31 @@ const setQuery = () => {
 
 let editorText = null;
 
-const updateEditorHandler = (content) => {
+const readyQuillHandler = (content) => {
   editorText = content;
 };
 
+const showEditorContent = () => {
+  editorText.setText(props.query.text || '');
+};
+
+const clearEditorContent = () => {
+  editorText.setText('');
+};
+
+const closeModal = () => {
+  bootstrap.Modal.getInstance(habrQueryModal).hide();
+  clearEditorContent();
+};
+
 onMounted(() => {
-  habrQueryModal.addEventListener('shown.bs.modal', () => {
-    editorText.setText(props.query.text || '');
-  });
+  habrQueryModal.addEventListener('shown.bs.modal', showEditorContent);
+  habrQueryModal.addEventListener('hidden.bs.modal', clearEditorContent);
+});
+
+onBeforeUnmount(() => {
+  habrQueryModal.removeEventListener('shown.bs.modal', showEditorContent);
+  habrQueryModal.removeEventListener('hidden.bs.modal', clearEditorContent);
 });
 </script>
 <template>
@@ -102,9 +114,8 @@ onMounted(() => {
               toolbar="minimal"
               contentType="text"
               v-model:content="query.text"
-              :content="editorText.setText(query.text)" 
               placeholder="Message text..."
-              @ready="updateEditorHandler"
+              @ready="readyQuillHandler"
             />
             <div
               v-if="query.isActive !== ''"
