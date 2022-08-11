@@ -14,7 +14,7 @@ const user = useUserStore();
   <Sidebar />
   <main class="main">
     <div class="container">
-      <div v-if="!user.isAuth" class="d-flex justify-content-center">
+      <div v-if="user.isLoading" class="d-flex justify-content-center">
         <div
           class="spinner-grow"
           style="width: 3rem; height: 3rem"

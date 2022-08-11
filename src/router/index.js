@@ -61,6 +61,8 @@ router.beforeEach(async (to, from, next) => {
 
   if (localStorage.getItem('auth') && !user.isAuth) {
     await user.auth();
+  } else {
+    user.isLoading = false;
   }
 
   if (to.meta.requiresAuth && !user.isAuth) {

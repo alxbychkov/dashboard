@@ -5,15 +5,18 @@ export const useUserStore = defineStore('userStore', {
     state: () => {
         return {
             user: null,
-            isAuth: false
+            isAuth: false,
+            isLoading: true
         }
     },
     actions: {
         login(user) {
             this.isAuth = true;
             this.user = user;
+            this.isLoading = false;
         },
         logout() {
+          this.isLoading = true;  
           this.isAuth = false;
           this.user = null;
         },
@@ -26,6 +29,8 @@ export const useUserStore = defineStore('userStore', {
                 }   
             } catch (error) {
                 console.error('Error: ', error);
+            } finally {
+                this.isLoading = false;
             }
         }
     },

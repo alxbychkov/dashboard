@@ -7,12 +7,12 @@ const links = [
     href: "/habr",
   },
   {
-    name: "Managers",
-    href: "/habr/manager",
-  },
-  {
     name: "Queries",
     href: "/habr/query",
+  },
+  {
+    name: "Managers",
+    href: "/habr/manager",
   },
   {
     name: "Candidates",
