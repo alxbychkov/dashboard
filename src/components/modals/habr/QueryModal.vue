@@ -2,6 +2,7 @@
 import { useHabrQueryStore } from "../../../stores/habr";
 import { QuillEditor } from "@vueup/vue-quill";
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import { onMounted } from "@vue/runtime-core";
 
 const habrQuery = useHabrQueryStore();
 
@@ -34,6 +35,18 @@ const closeModal = () => {
 const setQuery = () => {
   props.query.isActive = !props.query.isActive;
 };
+
+let editorText = null;
+
+const updateEditorHandler = (content) => {
+  editorText = content;
+};
+
+onMounted(() => {
+  habrQueryModal.addEventListener('shown.bs.modal', () => {
+    editorText.setText(props.query.text || '');
+  });
+});
 </script>
 <template>
   <div
@@ -85,10 +98,17 @@ const setQuery = () => {
               placeholder="Filter"
               v-model="query.filter"
             />
-            <QuillEditor toolbar="minimal" contentType="text" v-model:content="query.text" :content="query.text" placeholder="Message text..."/>
+            <QuillEditor 
+              toolbar="minimal"
+              contentType="text"
+              v-model:content="query.text"
+              :content="editorText.setText(query.text)" 
+              placeholder="Message text..."
+              @ready="updateEditorHandler"
+            />
             <div
               v-if="query.isActive !== ''"
-              class="form-check form-switch form-check-reverse"
+              class="form-check form-switch form-check-reverse mt-2"
             >
               <input
                 class="form-check-input"
@@ -132,3 +152,14 @@ const setQuery = () => {
     </div>
   </div>
 </template>
+<style>
+  .ql-toolbar {
+    border-radius: 0.375rem 0.375rem 0 0;
+  }
+  .ql-container {
+    border-radius: 0 0 0.375rem 0.375rem;
+  }
+  .ql-editor {
+    height: 300px;
+  }
+</style>
