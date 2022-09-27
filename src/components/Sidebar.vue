@@ -24,10 +24,15 @@ const navLinks = [
     logo: "/src/assets/icons/habr.png",
   },
   {
+    href: "/jobs",
+    name: "Jobs",
+    logo: "/src/assets/icons/job.png",
+  },
+  {
     href: "/about",
     name: "About",
     logo: "/src/assets/icons/info.png",
-  },
+  }
 ];
 
 const isParentNav = (value) => {

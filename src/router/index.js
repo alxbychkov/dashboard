@@ -48,6 +48,18 @@ const router = createRouter({
       component: () => import('../views/habr/HabrCandidateView.vue')
     },
     {
+      path: '/jobs',
+      name: 'jobs',
+      meta: {requiresAuth: true},
+      component: () => import('../views/jobs/JobsView.vue')
+    },
+    {
+      path: '/jobs/vacancies',
+      name: 'jobsVacancies',
+      meta: {requiresAuth: true, parent: 'jobs'},
+      component: () => import('../views/jobs/JobsVacanciesView.vue')
+    },
+    {
       path: '/login',
       name: 'login',
       meta: {requiresAuth: false},
