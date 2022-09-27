@@ -1,0 +1,1 @@
+export { useJobsStore as useJobsVacancyStore } from './useJobsVacancyStore.js';
