@@ -9,7 +9,7 @@ const vacancies = toRef(jobsVacancy, "vacancies");
 const currentPage = toRef(jobsVacancy, "page");
 
 let isLoading = ref(false);
-const count = ref(5);
+const count = ref(10);
 
 const changeCountHandler = (value) => {
     count.value = value;
@@ -50,7 +50,7 @@ const loadVacancyHandler = async (page) => {
             <button class="btn btn-success" type="button" :disabled="jobsVacancy.isLoaded"
                 @click="loadVacancyHandler(1)">
                 <span v-if="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                {{ isLoading ? "Loading..." : "Load users" }}
+                {{ isLoading ? "Loading..." : "Load vacancies" }}
             </button>
         </div>
         <table v-if="vacancies.length" class="table table-hover border rounded mb-3">
@@ -66,16 +66,14 @@ const loadVacancyHandler = async (page) => {
             <tbody>
                 <tr v-for="(vacancy, index) in vacancies" :key="vacancy.id">
                     <th scope="row">{{ index + 1 }}</th>
-                    <td>
-                        <a href="#">{{ vacancy.name }}</a>
-                    </td>
-                    <td>{{ vacancy.company_id }}</td>
+                    <td>{{ vacancy.name }}</td>
+                    <td><a href="#">{{ vacancy.company_id }}</a></td>
                     <td>{{ vacancy.location }}</td>
                     <td>{{ vacancy.postedOn }}</td>
                 </tr>
             </tbody>
         </table>
-        <Pagination v-if="jobsVacancy.page" :page="currentPage" :pages="jobsVacancy.pages"
+        <Pagination v-if="jobsVacancy.pages > 1" :page="currentPage" :pages="jobsVacancy.pages"
             @onPaginate="loadVacancyHandler" />
     </div>
 </template>
