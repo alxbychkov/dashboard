@@ -17,7 +17,6 @@ const changeCountHandler = (value) => {
 
 const loadVacancyHandler = async (page) => {
     isLoading.value = true;
-    console.log(page, isLoading.value);
     await jobsVacancy.get(page, count.value);
     isLoading.value = false;
 };

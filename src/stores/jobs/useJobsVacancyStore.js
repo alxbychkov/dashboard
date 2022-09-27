@@ -14,7 +14,7 @@ export const useJobsStore = defineStore('jobsVacancyStore', {
         async get(page = 1, limit = 10) {
             try {
                 const response = await axios.post('vacancy', {page, limit});
-                console.log(response);
+                
                 this.page = response.data.vacancies.page;
                 this.pages = response.data.vacancies.pages;
                 this.vacancies = response.data.vacancies.values;
