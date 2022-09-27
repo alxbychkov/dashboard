@@ -1,23 +1,24 @@
 <script setup>
 import { toRef, ref } from "vue";
 import JobsNav from "./JobsNav.vue";
-import { useHabrCandidateStore } from "../../stores/habr";
 import Pagination from "../../components/Pagination.vue";
+import { useJobsVacancyStore } from "../../stores/jobs";
 
-const habrCandidate = useHabrCandidateStore();
-const candidates = toRef(habrCandidate, "candidates");
-const currentPage = toRef(habrCandidate, "page");
+const jobsVacancy = useJobsVacancyStore();
+const vacancies = toRef(jobsVacancy, "vacancies");
+const currentPage = toRef(jobsVacancy, "page");
 
 let isLoading = ref(false);
-const count = ref(10);
+const count = ref(5);
 
 const changeCountHandler = (value) => {
     count.value = value;
 };
 
-const loadUserHandler = async (page) => {
+const loadVacancyHandler = async (page) => {
     isLoading.value = true;
-    await habrCandidate.get(page, count.value);
+    console.log(page, isLoading.value);
+    await jobsVacancy.get(page, count.value);
     isLoading.value = false;
 };
 </script>
@@ -46,38 +47,36 @@ const loadUserHandler = async (page) => {
                     500
                 </button>
             </div>
-            <button class="btn btn-success" type="button" :disabled="habrCandidate.isLoaded"
-                @click="loadUserHandler(1)">
+            <button class="btn btn-success" type="button" :disabled="jobsVacancy.isLoaded"
+                @click="loadVacancyHandler(1)">
                 <span v-if="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 {{ isLoading ? "Loading..." : "Load users" }}
             </button>
         </div>
-        <table v-if="candidates.length" class="table table-hover border rounded mb-3">
+        <table v-if="vacancies.length" class="table table-hover border rounded mb-3">
             <thead>
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Offer</th>
-                    <th scope="col">Query</th>
-                    <th scope="col" class="text-center">Status</th>
+                    <th scope="col">Company</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">Posted on</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(candidate, index) in candidates" :key="candidate._id">
+                <tr v-for="(vacancy, index) in vacancies" :key="vacancy.id">
                     <th scope="row">{{ index + 1 }}</th>
                     <td>
-                        <a :href="candidate.conversations">{{ candidate.name }}</a>
+                        <a href="#">{{ vacancy.name }}</a>
                     </td>
-                    <td>{{ candidate.status }}</td>
-                    <td>{{ candidate.offer }}</td>
-                    <td>{{ candidate.query }}</td>
-                    <td class="text-center">{{ candidate.isReceived ? "🟢" : "🔴" }}</td>
+                    <td>{{ vacancy.company_id }}</td>
+                    <td>{{ vacancy.location }}</td>
+                    <td>{{ vacancy.postedOn }}</td>
                 </tr>
             </tbody>
         </table>
-        <Pagination v-if="habrCandidate.page" :page="currentPage" :pages="habrCandidate.pages"
-            @onPaginate="loadUserHandler" />
+        <Pagination v-if="jobsVacancy.page" :page="currentPage" :pages="jobsVacancy.pages"
+            @onPaginate="loadVacancyHandler" />
     </div>
 </template>
     
