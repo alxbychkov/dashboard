@@ -1,4 +1,5 @@
 <script setup>
+import * as bootstrap from "bootstrap";
 import { onMounted } from "vue";
 import { RouterLink, useRoute, useRouter } from "vue-router";
 import { useUserStore } from "../stores/userStore";
@@ -11,27 +12,27 @@ const navLinks = [
   {
     href: "/",
     name: "Home",
-    logo: "/src/assets/icons/home.png",
+    logo: "/images/icons/home.png",
   },
   {
     href: "/github",
     name: "Github",
-    logo: "/src/assets/icons/github.png",
+    logo: "/images/icons/github.png",
   },
   {
     href: "/habr",
     name: "Habr",
-    logo: "/src/assets/icons/habr.png",
+    logo: "/images/icons/habr.png",
   },
   {
     href: "/jobs",
     name: "Jobs",
-    logo: "/src/assets/icons/job.png",
+    logo: "/images/icons/job.png",
   },
   {
     href: "/about",
     name: "About",
-    logo: "/src/assets/icons/info.png",
+    logo: "/images/icons/info.png",
   }
 ];
 
@@ -40,26 +41,22 @@ const isParentNav = (value) => {
 };
 
 onMounted(() => {
-  const tooltipTriggerList = Array.from(
-    document.querySelectorAll('[data-bs-toggle="tooltip"]')
-  );
-  tooltipTriggerList.forEach((tooltipTriggerEl) => {
-    new bootstrap.Tooltip(tooltipTriggerEl);
-  });
+  setTimeout(function () {
+    const tooltipTriggerList = Array.from(
+      document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    );
+    if (tooltipTriggerList.length) {
+      console.log(tooltipTriggerList);
+      tooltipTriggerList.forEach((tooltipTriggerEl) => {
+        new bootstrap.Tooltip(tooltipTriggerEl, '');
+      });
+    }
+  }, 0);
 });
 </script>
 <template>
-  <aside
-    v-if="user.isAuth"
-    class="d-flex flex-column flex-shrink-0 bg-dark sidebar"
-    style="width: 4.5rem"
-  >
-    <a
-      href="/"
-      class="d-block p-3 link-dark text-decoration-none"
-      data-bs-toggle="tooltip"
-      data-bs-placement="right"
-    >
+  <aside v-if="user.isAuth" class="d-flex flex-column flex-shrink-0 bg-dark sidebar" style="width: 4.5rem">
+    <a href="/" class="d-block p-3 link-dark text-decoration-none" data-bs-toggle="tooltip" data-bs-placement="right">
       <svg class="bi pe-none" width="40" height="32">
         <use xlink:href="#bootstrap"></use>
       </svg>
@@ -67,15 +64,9 @@ onMounted(() => {
     </a>
     <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
       <li v-for="link in navLinks" class="nav-item" :key="link.name">
-        <RouterLink
-          :to="link.href"
-          class="nav-link py-3 border-bottom rounded-0"
-          :class="isParentNav(link.name) && 'router-link-active'"
-          aria-current="page"
-          data-bs-toggle="tooltip"
-          data-bs-placement="right"
-          :title="link.name"
-        >
+        <RouterLink :to="link.href" class="nav-link py-3 border-bottom rounded-0"
+          :class="isParentNav(link.name) && 'router-link-active'" aria-current="page" data-bs-toggle="tooltip"
+          data-bs-placement="right" :title="link.name">
           <div class="sidebar-logo">
             <img :src="link.logo" :alt="link.name" />
           </div>
@@ -91,6 +82,7 @@ onMounted(() => {
   left: 0;
   bottom: 0;
 }
+
 .sidebar-logo img {
   width: 24px;
   height: 24px;

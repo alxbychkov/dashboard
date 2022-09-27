@@ -3,10 +3,10 @@ import { RouterView } from "vue-router";
 import Navbar from "./components/Navbar.vue";
 import Sidebar from "./components/Sidebar.vue";
 import Footer from "./components/Footer.vue";
-import "../node_modules/bootstrap/dist/js/bootstrap.bundle.js";
 import { useUserStore } from "./stores/userStore";
 
 const user = useUserStore();
+
 </script>
 
 <template>

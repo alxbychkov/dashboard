@@ -3,6 +3,8 @@ import { useHabrQueryStore } from "../../../stores/habr";
 import { QuillEditor } from "@vueup/vue-quill";
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import { onBeforeUnmount, onMounted } from "@vue/runtime-core";
+import * as bootstrap from "bootstrap";
+import { ref } from "vue";
 
 const habrQuery = useHabrQueryStore();
 
@@ -61,101 +63,44 @@ onBeforeUnmount(() => {
 });
 </script>
 <template>
-  <div
-    class="modal fade"
-    id="habrQueryModal"
-    tabindex="-1"
-    aria-labelledby="habrQueryModalLabel"
-    aria-hidden="true"
-    ref="habrQueryModal"
-  >
+  <div class="modal fade" id="habrQueryModal" tabindex="-1" aria-labelledby="habrQueryModalLabel" aria-hidden="true"
+    ref="habrQueryModal">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="habrQueryModalLabel">
             {{ query._id ? "Update query" : "New query" }}
           </h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-            ref="closeModal"
-          ></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            @click="closeModal"></button>
         </div>
         <div class="modal-body">
           <form>
             <input type="hidden" v-model="query._id" />
-            <input
-              type="text"
-              class="form-control mb-2"
-              placeholder="Query_id"
-              v-model="query.query_id"
-            />
-            <input
-              type="text"
-              class="form-control mb-2"
-              placeholder="Name"
-              v-model="query.name"
-            />
-            <input
-              type="text"
-              class="form-control mb-2"
-              placeholder="Salary"
-              v-model="query.salary"
-            />
-            <input
-              type="text"
-              class="form-control mb-2"
-              placeholder="Filter"
-              v-model="query.filter"
-            />
-            <QuillEditor 
-              toolbar="minimal"
-              contentType="text"
-              v-model:content="query.text"
-              placeholder="Message text..."
-              @ready="readyQuillHandler"
-            />
-            <div
-              v-if="query.isActive !== ''"
-              class="form-check form-switch form-check-reverse mt-2"
-            >
-              <input
-                class="form-check-input"
-                type="checkbox"
-                id="isActiveQuery"
-                @change="setQuery"
-                :checked="query.isActive"
-              />
-              <label class="form-check-label me-2" for="isActiveQuery"
-                >Active:
+            <input type="text" class="form-control mb-2" placeholder="Query_id" v-model="query.query_id" />
+            <input type="text" class="form-control mb-2" placeholder="Name" v-model="query.name" />
+            <input type="text" class="form-control mb-2" placeholder="Salary" v-model="query.salary" />
+            <input type="text" class="form-control mb-2" placeholder="Filter" v-model="query.filter" />
+            <QuillEditor toolbar="minimal" contentType="text" v-model:content="query.text" placeholder="Message text..."
+              @ready="readyQuillHandler" />
+            <div v-if="query.isActive !== ''" class="form-check form-switch form-check-reverse mt-2">
+              <input class="form-check-input" type="checkbox" id="isActiveQuery" @change="setQuery"
+                :checked="query.isActive" />
+              <label class="form-check-label me-2" for="isActiveQuery">Active:
               </label>
             </div>
           </form>
         </div>
         <div v-if="query._id" class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-danger"
-            @click="deleteQueryHandler"
-          >
+          <button type="button" class="btn btn-danger" @click="deleteQueryHandler">
             Delete
           </button>
-          <button
-            type="button"
-            class="btn btn-success"
-            @click="updateQueryHandler"
-          >
+          <button type="button" class="btn btn-success" @click="updateQueryHandler">
             Update
           </button>
         </div>
         <div v-else class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-primary"
-            @click="addQueryHandler"
-          >
+          <button type="button" class="btn btn-primary" @click="addQueryHandler">
             Add
           </button>
         </div>
@@ -164,13 +109,15 @@ onBeforeUnmount(() => {
   </div>
 </template>
 <style>
-  .ql-toolbar {
-    border-radius: 0.375rem 0.375rem 0 0;
-  }
-  .ql-container {
-    border-radius: 0 0 0.375rem 0.375rem;
-  }
-  .ql-editor {
-    height: 300px;
-  }
+.ql-toolbar {
+  border-radius: 0.375rem 0.375rem 0 0;
+}
+
+.ql-container {
+  border-radius: 0 0 0.375rem 0.375rem;
+}
+
+.ql-editor {
+  height: 300px;
+}
 </style>
