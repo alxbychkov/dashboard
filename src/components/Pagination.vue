@@ -61,7 +61,7 @@ const pageHandler = (page) => {
         </a>
       </li>
 
-      <li class="page-item" :class="next < props.pages ? '' : 'disabled'">
+      <li class="page-item" :class="next <= props.pages ? '' : 'disabled'">
         <a class="page-link" href="#" @click.prevent="pageHandler(next)"
           >Next</a
         >
