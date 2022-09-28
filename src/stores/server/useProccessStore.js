@@ -11,7 +11,7 @@ export const useProccessStore = defineStore('serverProccessStore', {
     actions: {
         async get() {
             try {
-                const response = await axios.post('pm2/list');
+                const response = await axios.post('pm2/list/');
                 this.list = response.data.list;
                 this.isLoaded = true;
             } catch (error) {
@@ -22,7 +22,7 @@ export const useProccessStore = defineStore('serverProccessStore', {
         async refresh() {
             this.isLoaded = false;
             try {
-                const response = await axios.post('pm2/list');
+                const response = await axios.post('pm2/list/');
                 this.list = response.data.list;
             } catch (error) {
                 console.error('Error: ', error);
@@ -33,7 +33,7 @@ export const useProccessStore = defineStore('serverProccessStore', {
         async stop(id) {
             this.isLoaded = false;
             try {
-                const response = await axios.post('pm2/stop', {id});
+                const response = await axios.post('pm2/stop/', {id});
 
                 if (response.data.status === 'ok') {
                     await this.refresh();
@@ -47,7 +47,7 @@ export const useProccessStore = defineStore('serverProccessStore', {
         async restart(id) {
             this.isLoaded = false;
             try {
-                const response = await axios.post('pm2/restart', {id});
+                const response = await axios.post('pm2/restart/', {id});
 
                 if (response.data.status === 'ok') {
                     await this.refresh();
@@ -61,7 +61,7 @@ export const useProccessStore = defineStore('serverProccessStore', {
         async reload(id) {
             this.isLoaded = false;
             try {
-                const response = await axios.post('pm2/reload', {id});
+                const response = await axios.post('pm2/reload/', {id});
 
                 if (response.data.status === 'ok') {
                     await this.refresh();

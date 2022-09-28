@@ -11,7 +11,7 @@ export const useHabrStore = defineStore('habrQueryStore', {
     actions: {
         async get() {
             try {
-                const response = await axios.get('query');
+                const response = await axios.get('query/');
                 this.queries = response.data.queries;
             } catch (error) {
                 console.error('Error: ', error);
@@ -21,7 +21,7 @@ export const useHabrStore = defineStore('habrQueryStore', {
         },
         async update(value) {
             try {
-                const response = await axios.put('query', value);
+                const response = await axios.put('query/', value);
                 if (response.data.query) this.get();
             } catch (error) {
                 console.error('Error: ', error);
@@ -29,8 +29,8 @@ export const useHabrStore = defineStore('habrQueryStore', {
         },
         async delete(value) {
             try {
-                const response = await axios.delete('query', {data: value});
-                console.log(response)
+                const response = await axios.delete('query/', {data: value});
+
                 if (response.data.deleted.deletedCount) this.get();
             } catch (error) {
                 console.error('Error: ', error);
@@ -38,7 +38,7 @@ export const useHabrStore = defineStore('habrQueryStore', {
         },
         async add(value) {
             try {
-                const response = await axios.post('query', value);
+                const response = await axios.post('query/', value);
                 if (response.data.query) this.get();
             } catch (error) {
                 console.error('Error: ', error);

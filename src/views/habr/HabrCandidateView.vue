@@ -93,7 +93,7 @@ const loadUserHandler = async (page) => {
       </thead>
       <tbody>
         <tr v-for="(candidate, index) in candidates" :key="candidate._id">
-          <th scope="row">{{ index + 1 }}</th>
+          <th scope="row">{{ count * (currentPage - 1) + index + 1 }}</th>
           <td>
             <a :href="candidate.conversations">{{ candidate.name }}</a>
           </td>
@@ -105,7 +105,7 @@ const loadUserHandler = async (page) => {
       </tbody>
     </table>
     <Pagination
-      v-if="habrCandidate.page"
+      v-if="habrCandidate.pages > 0"
       :page="currentPage"
       :pages="habrCandidate.pages"
       @onPaginate="loadUserHandler"

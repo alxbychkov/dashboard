@@ -13,7 +13,7 @@ export const useHabrStore = defineStore('habrCandidateStore', {
     actions: {
         async get(page = 1, limit = 10) {
             try {
-                const response = await axios.post('candidate', {page, limit});
+                const response = await axios.post('candidate/', {page, limit});
         
                 this.page = response.data.candidates.page;
                 this.pages = response.data.candidates.pages;

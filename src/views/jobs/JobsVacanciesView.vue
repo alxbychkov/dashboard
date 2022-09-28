@@ -64,7 +64,7 @@ const loadVacancyHandler = async (page) => {
             </thead>
             <tbody>
                 <tr v-for="(vacancy, index) in vacancies" :key="vacancy.id">
-                    <th scope="row">{{ index + 1 }}</th>
+                    <th scope="row">{{ count * (currentPage - 1) + index + 1 }}</th>
                     <td>{{ vacancy.name }}</td>
                     <td><a href="#">{{ vacancy.company_id }}</a></td>
                     <td>{{ vacancy.location }}</td>
@@ -72,7 +72,7 @@ const loadVacancyHandler = async (page) => {
                 </tr>
             </tbody>
         </table>
-        <Pagination v-if="jobsVacancy.pages > 1" :page="currentPage" :pages="jobsVacancy.pages"
+        <Pagination v-if="jobsVacancy.pages > 0" :page="currentPage" :pages="jobsVacancy.pages"
             @onPaginate="loadVacancyHandler" />
     </div>
 </template>
