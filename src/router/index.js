@@ -21,7 +21,7 @@ const router = createRouter({
       path: '/github',
       name: 'github',
       meta: {requiresAuth: true},
-      component: () => import('../views/GithubView.vue')
+      component: () => import('../views/github/GithubView.vue')
     },
     {
       path: '/habr',

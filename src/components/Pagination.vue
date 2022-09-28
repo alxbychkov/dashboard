@@ -53,6 +53,7 @@ const pageHandler = (page) => {
         :key="number"
       >
         <a
+          v-if="number <= props.pages"
           class="page-link"
           :href="number"
           @click.prevent="pageHandler(number)"

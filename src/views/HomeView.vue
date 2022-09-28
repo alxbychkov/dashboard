@@ -24,7 +24,7 @@ const stopProccessHandler = (id) => {
 onMounted(async () => { });
 </script>
 <template>
-  <div class="h4 pb-2 mb-4 text-success border-bottom border-success">Home</div>
+  <div class="h2 pb-2 mb-4 text-success border-bottom border-success">Home</div>
   <div class="bord border border-secondary p-3 rounded mt-4">
     <div class="card">
       <div class="card-header">Proccess status:</div>

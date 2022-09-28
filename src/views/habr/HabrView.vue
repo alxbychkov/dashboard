@@ -17,7 +17,7 @@ onBeforeMount(async () => {
 onMounted(async () => {});
 </script>
 <template>
-  <div class="h4 pb-2 mb-4 text-success border-bottom border-success">Habr</div>
+  <div class="h2 pb-2 mb-4 text-success border-bottom border-success">Habr</div>
   <HabrNav />
   <div class="bord border border-secondary p-3 rounded mt-4">
     <div class="card mt-2">

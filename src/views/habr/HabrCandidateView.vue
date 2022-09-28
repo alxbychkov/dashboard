@@ -22,7 +22,7 @@ const loadUserHandler = async (page) => {
 };
 </script>
 <template>
-  <div class="h4 pb-2 mb-4 text-success border-bottom border-success">
+  <div class="h2 pb-2 mb-4 text-success border-bottom border-success">
     Habr (Candidates)
   </div>
   <HabrNav />
@@ -95,7 +95,7 @@ const loadUserHandler = async (page) => {
         <tr v-for="(candidate, index) in candidates" :key="candidate._id">
           <th scope="row">{{ count * (currentPage - 1) + index + 1 }}</th>
           <td>
-            <a :href="candidate.conversations">{{ candidate.name }}</a>
+            <a :href="`https://career.habr.com${candidate.conversations}`" target="_blank">{{ candidate.name }}</a>
           </td>
           <td>{{ candidate.status }}</td>
           <td>{{ candidate.offer }}</td>

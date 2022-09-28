@@ -30,7 +30,7 @@ onBeforeMount(async () => {
 });
 </script>
 <template>
-  <div class="h4 pb-2 mb-4 text-success border-bottom border-success">
+  <div class="h2 pb-2 mb-4 text-success border-bottom border-success">
     Habr (Managers)
   </div>
   <HabrNav />

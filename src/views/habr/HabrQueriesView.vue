@@ -29,7 +29,7 @@ onBeforeMount(async () => {
 });
 </script>
 <template>
-  <div class="h4 pb-2 mb-4 text-success border-bottom border-success">
+  <div class="h2 pb-2 mb-4 text-success border-bottom border-success">
     Habr (Queries)
   </div>
   <HabrNav />
@@ -58,7 +58,7 @@ onBeforeMount(async () => {
           <th scope="row">{{ index + 1 }}</th>
           <td>{{ query.name }}</td>
           <td>
-            <a :href="query.filter">{{ query.query_id }}</a>
+            <a :href="`https://career.habr.com/?${query.filter}`" target="_blank">{{ query.query_id }}</a>
           </td>
           <td class="text-center">{{ query.isActive ? "🟢" : "🔴" }}</td>
         </tr>
