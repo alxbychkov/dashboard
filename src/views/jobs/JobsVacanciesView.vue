@@ -66,7 +66,7 @@ const loadVacancyHandler = async (page) => {
                 <tr v-for="(vacancy, index) in vacancies" :key="vacancy.id">
                     <th scope="row">{{ count * (currentPage - 1) + index + 1 }}</th>
                     <td>{{ vacancy.name }}</td>
-                    <td><a href="#">{{ vacancy.company_id }}</a></td>
+                    <td><a :href="vacancy.company.website" target="_blank">{{ vacancy.company.name}}</a></td>
                     <td>{{ vacancy.location }}</td>
                     <td>{{ vacancy.postedOn }}</td>
                 </tr>
