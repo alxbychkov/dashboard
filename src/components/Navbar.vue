@@ -16,7 +16,7 @@ const logout = () => {
   <header class="p-3 bg-dark text-white sticky-top">
     <div class="container">
       <div
-        class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
+        class="d-flex flex-wrap align-items-center justify-content-between justify-content-lg-start"
       >
         <RouterLink
           to="/"
@@ -26,7 +26,7 @@ const logout = () => {
         </RouterLink>
 
         <ul
-          class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"
+          class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 d-none d-sm-flex"
         >
           <!-- <li>
             <RouterLink to="/" class="nav-link px-2 text-white"
@@ -52,4 +52,9 @@ const logout = () => {
 /* .router-link-active {
   opacity: 0.5;
 } */
+@media (max-width: 575px) {
+  header.p-3 {
+    padding-bottom: 0.25rem !important;
+  }
+}
 </style>

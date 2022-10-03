@@ -6,7 +6,6 @@ import Footer from "./components/Footer.vue";
 import { useUserStore } from "./stores/userStore";
 
 const user = useUserStore();
-
 </script>
 
 <template>
@@ -36,10 +35,16 @@ body,
   min-height: 100vh;
 }
 
-aside + .main {
-  margin-left: 4.5rem;
+@media (min-width: 576px) {
+  aside + .main {
+    margin-left: 4.5rem;
+  }
+  .main {
+    padding-top: 50px !important;
+  }
 }
+
 .main {
-  padding: 50px 20px;
+  padding: 100px 20px 50px;
 }
 </style>
