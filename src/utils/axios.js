@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-    baseURL: 'http://5.35.82.91:4444'
+    baseURL: process.env.NODE_ENV === 'production' ? 'https://habr.atcon.ru/api/v2/auth/' : 'http://5.35.82.91:4444'
 });
 
 instance.interceptors.request.use(config => {
