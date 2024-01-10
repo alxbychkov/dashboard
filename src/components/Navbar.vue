@@ -16,7 +16,7 @@ const logout = () => {
   <header class="p-3 bg-dark text-white sticky-top">
     <div class="container">
       <div
-        class="d-flex flex-wrap align-items-center justify-content-between justify-content-lg-start"
+        class="d-flex flex-wrap align-items-center justify-content-between"
       >
         <RouterLink
           to="/"
@@ -24,16 +24,6 @@ const logout = () => {
         >
           <img src="../assets/logo.png" alt="Logo" />
         </RouterLink>
-
-        <ul
-          class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 d-none d-sm-flex"
-        >
-          <!-- <li>
-            <RouterLink to="/" class="nav-link px-2 text-white"
-              >Home</RouterLink
-            >
-          </li> -->
-        </ul>
 
         <div class="text-end">
           <RouterLink

@@ -1,6 +1,6 @@
 <script setup>
 import * as bootstrap from "bootstrap";
-import { onMounted } from "vue";
+import { onMounted, computed } from "vue";
 import { RouterLink, useRoute, useRouter } from "vue-router";
 import { useUserStore } from "../stores/userStore";
 
@@ -40,6 +40,14 @@ const isParentNav = (value) => {
   return route.meta.parent && route.meta.parent === value.toLowerCase();
 };
 
+const filteredNavLinks = computed(() => {
+  if (user.user.name === "admin") {
+    return navLinks;
+  }
+
+  return navLinks.filter(link => !["Github","Habr"].includes(link.name));
+});
+
 onMounted(() => {
   setTimeout(function () {
     const tooltipTriggerList = Array.from(
@@ -59,21 +67,10 @@ onMounted(() => {
     v-if="user.isAuth"
     class="d-flex flex-sm-column flex-row flex-shrink-0 bg-dark sidebar"
   >
-    <a
-      href="/"
-      class="d-block p-3 link-dark text-decoration-none"
-      data-bs-toggle="tooltip"
-      data-bs-placement="right"
-    >
-      <svg class="bi pe-none" width="40" height="32">
-        <use xlink:href="#bootstrap"></use>
-      </svg>
-      <span class="visually-hidden">Icon-only</span>
-    </a>
     <ul
       class="nav nav-pills nav-flush flex-sm-column mb-auto text-center flex-row"
     >
-      <li v-for="link in navLinks" class="nav-item" :key="link.name">
+      <li v-for="link in filteredNavLinks" class="nav-item" :key="link.name">
         <RouterLink
           :to="link.href"
           class="nav-link py-3 border-bottom rounded-0"
@@ -99,6 +96,7 @@ onMounted(() => {
   bottom: 0;
   width: 4.5rem;
   z-index: 1000;
+  padding-top: 59px;
 }
 
 .sidebar-logo img {
@@ -118,6 +116,9 @@ onMounted(() => {
     right: 0;
     bottom: unset;
     filter: opacity(0.9);
+    padding-top: 0;
+    padding-bottom: 5px;
+    justify-content: center;
   }
 }
 </style>

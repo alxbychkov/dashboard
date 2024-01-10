@@ -20,31 +20,31 @@ const router = createRouter({
     {
       path: '/github',
       name: 'github',
-      meta: {requiresAuth: true},
+      meta: {requiresAuth: true, canSee: "admin"},
       component: () => import('../views/github/GithubView.vue')
     },
     {
       path: '/habr',
       name: 'habr',
-      meta: {requiresAuth: true},
+      meta: {requiresAuth: true, canSee: "admin"},
       component: () => import('../views/habr/HabrView.vue')
     },
     {
       path: '/habr/manager',
       name: 'habrManages',
-      meta: {requiresAuth: true, parent: 'habr'},
+      meta: {requiresAuth: true, parent: 'habr', canSee: "admin"},
       component: () => import('../views/habr/HabrManagerView.vue')
     },
     {
       path: '/habr/query',
       name: 'habrQueries',
-      meta: {requiresAuth: true, parent: 'habr'},
+      meta: {requiresAuth: true, parent: 'habr', canSee: "admin"},
       component: () => import('../views/habr/HabrQueriesView.vue')
     },
     {
       path: '/habr/candidates',
       name: 'habrCandidates',
-      meta: {requiresAuth: true, parent: 'habr'},
+      meta: {requiresAuth: true, parent: 'habr', canSee: "admin"},
       component: () => import('../views/habr/HabrCandidateView.vue')
     },
     {
@@ -70,7 +70,7 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const user = useUserStore();
-
+  
   if (localStorage.getItem('auth') && !user.isAuth) {
     await user.auth();
   } else {
@@ -80,6 +80,8 @@ router.beforeEach(async (to, from, next) => {
   if (to.meta.requiresAuth && !user.isAuth) {
     next('/login');
   } else if (to.name === 'login' && user.isAuth) {
+    next('/');
+  } else if (to.meta.canSee && to.meta.canSee !== user.user.name) {
     next('/');
   } else {
     next();

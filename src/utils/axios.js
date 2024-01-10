@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-    baseURL: 'https://abychkov-auth-server.herokuapp.com'
+    baseURL: 'http://5.35.82.91:4444'
 });
 
 instance.interceptors.request.use(config => {
