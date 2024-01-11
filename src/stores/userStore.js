@@ -22,7 +22,7 @@ export const useUserStore = defineStore('userStore', {
         },
         async auth() {
             try {
-                const response = await axios.get('/auth/me');
+                const response = await axios.get('me/');
                 if (response.data.user && response.data.user.id) {
                     this.isAuth = true;
                     this.user = response.data.user;

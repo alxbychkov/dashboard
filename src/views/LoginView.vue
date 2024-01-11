@@ -16,7 +16,7 @@ const formData = ref({
 const errorMesssage = ref("");
 
 const loginFormSubmit = async () => {
-  const URL = "/auth/login";
+  const URL = "login/";
 
   try {
     const response = await axios.post(URL, formData.value);
