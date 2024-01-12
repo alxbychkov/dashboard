@@ -56,7 +56,7 @@ onMounted(async () => {});
             <div>
               (CPU: {{ list.monit.cpu }} Memory: {{ list.monit.memory }})
             </div>
-            <div v-if="user.user.name !== 'admin1'">
+            <div v-if="user.user.name === 'admin'">
               <button
                 class="btn btn-success me-1"
                 :disabled="list.status === 'online'"
