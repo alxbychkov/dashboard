@@ -64,6 +64,10 @@ const router = createRouter({
       name: 'login',
       meta: {requiresAuth: false},
       component: () => import('../views/LoginView.vue')
+    },
+    {
+      path: '/:pathMatch(.*)',
+      component: () => import('../views/404View.vue')
     }
   ]
 });

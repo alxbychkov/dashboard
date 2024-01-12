@@ -14,16 +14,16 @@ const navLinks = [
     name: "Home",
     logo: "/images/icons/home.png",
   },
-  {
-    href: "/github",
-    name: "Github",
-    logo: "/images/icons/github.png",
-  },
-  {
-    href: "/habr",
-    name: "Habr",
-    logo: "/images/icons/habr.png",
-  },
+  // {
+  //   href: "/github",
+  //   name: "Github",
+  //   logo: "/images/icons/github.png",
+  // },
+  // {
+  //   href: "/habr",
+  //   name: "Habr",
+  //   logo: "/images/icons/habr.png",
+  // },
   {
     href: "/jobs",
     name: "Jobs",
