@@ -10,6 +10,14 @@ const links = [
     name: "Vacancies",
     href: "/jobs/vacancies",
   },
+  {
+    name: "Companies",
+    href: "/jobs/companies",
+  },
+  {
+    name: "Questions",
+    href: "/jobs/questions",
+  },
 ];
 </script>
 <template>

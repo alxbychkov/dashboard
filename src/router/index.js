@@ -60,6 +60,18 @@ const router = createRouter({
       component: () => import('../views/jobs/JobsVacanciesView.vue')
     },
     {
+      path: '/jobs/companies',
+      name: 'jobsCompanies',
+      meta: {requiresAuth: true, parent: 'jobs'},
+      component: () => import('../views/jobs/JobsCompaniesView.vue')
+    },
+    {
+      path: '/jobs/questions',
+      name: 'jobsQuestions',
+      meta: {requiresAuth: true, parent: 'jobs'},
+      component: () => import('../views/jobs/JobsQuestionsView.vue')
+    },
+    {
       path: '/login',
       name: 'login',
       meta: {requiresAuth: false},
