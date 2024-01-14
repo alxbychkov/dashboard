@@ -72,6 +72,12 @@ const router = createRouter({
       component: () => import('../views/jobs/JobsQuestionsView.vue')
     },
     {
+      path: '/jobs/recepients',
+      name: 'jobsRecepients',
+      meta: {requiresAuth: true, parent: 'jobs'},
+      component: () => import('../views/jobs/JobsRecepientsView.vue')
+    },
+    {
       path: '/login',
       name: 'login',
       meta: {requiresAuth: false},
