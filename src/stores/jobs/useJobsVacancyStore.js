@@ -11,9 +11,9 @@ export const useJobsStore = defineStore('jobsVacancyStore', {
         }
     },
     actions: {
-        async get(page = 1, limit = 10) {
+        async get(page = 1, limit = 10, status = '') {
             try {
-                const response = await axios.post('vacancy/', {page, limit});
+                const response = await axios.post('vacancy/', {page, limit, status});
 
                 this.page = response.data.vacancies.page;
                 this.pages = response.data.vacancies.pages;
@@ -28,7 +28,7 @@ export const useJobsStore = defineStore('jobsVacancyStore', {
             try {
                 console.log(value);
 
-                
+
             } catch (error) {
                 console.error('Error: ', error);
             }

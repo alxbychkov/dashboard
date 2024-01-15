@@ -18,16 +18,21 @@ const vacancies = toRef(jobsVacancy, "vacancies");
 const vacancyRow = ref(INITIAL_VACANCY);
 const currentPage = toRef(jobsVacancy, "page");
 
-let isLoading = ref(false);
+const isLoading = ref(false);
 const count = ref(10);
+const status = ref('');
 
 const changeCountHandler = (value) => {
     count.value = value;
 };
 
+const changeStatusHandler = (value) => {
+    status.value = value;
+}
+
 const loadVacancyHandler = async (page) => {
     isLoading.value = true;
-    await jobsVacancy.get(page, count.value);
+    await jobsVacancy.get(page, count.value, status.value);
     isLoading.value = false;
 };
 
@@ -49,7 +54,7 @@ const setVacancy = async (value = INITIAL_QUESTION) => {
     <JobsNav />
     <div class="bord border border-secondary p-3 rounded mt-4 overflow-auto">
         <div class="mb-3 d-flex justify-content-between flex-sm-row flex-column">
-            <div class="btn-group mb-sm-0 mb-2" role="group" aria-label="Count candidates">
+            <div class="btn-group mb-sm-0 mb-2" role="group" aria-label="Count vacancies">
                 <button type="button" class="btn btn-outline-secondary" :class="count === 10 ? 'btn-warning' : ''"
                     @click="changeCountHandler(10)">
                     10
@@ -65,6 +70,16 @@ const setVacancy = async (value = INITIAL_QUESTION) => {
                 <button type="button" class="btn btn-outline-secondary" :class="count === 500 ? 'btn-warning' : ''"
                     @click="changeCountHandler(500)">
                     500
+                </button>
+            </div>
+            <div class="btn-group mb-sm-0 mb-2 me-auto ms-2" role="group" aria-label="Apply vacancies">
+                <button type="button" class="btn btn-outline-secondary" :class="status === 'relevant' ? 'btn-warning' : ''"
+                    @click="changeStatusHandler('relevant')">
+                    Relevant
+                </button>
+                <button type="button" class="btn btn-outline-secondary" :class="status !== 'relevant' ? 'btn-warning' : ''"
+                    @click="changeStatusHandler('')">
+                    All
                 </button>
             </div>
             <button class="btn btn-success" type="button" :disabled="jobsVacancy.isLoaded"
