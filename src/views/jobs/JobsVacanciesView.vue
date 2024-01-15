@@ -19,8 +19,8 @@ const vacancyRow = ref(INITIAL_VACANCY);
 const currentPage = toRef(jobsVacancy, "page");
 
 const isLoading = ref(false);
-const count = ref(10);
-const status = ref('');
+const count = ref(50);
+const status = ref('relevant');
 
 const changeCountHandler = (value) => {
     count.value = value;

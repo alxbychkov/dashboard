@@ -1,9 +1,14 @@
 <script setup>
-import { onBeforeMount, onMounted } from "vue";
+import { onBeforeMount, onMounted, ref } from "vue";
 import JobsNav from "./JobsNav.vue";
 import Loader from "../../components/Loader.vue";
 
 const DAILY_LOG_LINK = "https://habr.atcon.ru/cryptojobslist/logs/";
+const frame = ref(null);
+
+const updateLinkHandler = () => {
+  frame.value.src+='';
+};
 
 onBeforeMount(async () => {});
 
@@ -13,7 +18,7 @@ onMounted(async () => {});
   <div class="h2 pb-2 mb-4 text-success border-bottom border-success">Jobs</div>
   <JobsNav />
   <div class="bord border border-secondary p-3 rounded mt-4">
-    <div class="card">
+    <div class="card d-none">
       <div class="card-header">
         <a
           href="https://docs.google.com/spreadsheets/d/1v2GFTKSOpWU__LofmXyMV0Z7AeQCXlsILzf4uTHZAUM/edit#gid=0"
@@ -24,9 +29,9 @@ onMounted(async () => {});
       </div>
     </div>
     <div class="card mt-2">
-      <div class="card-header">Daily logs:</div>
+      <div class="card-header d-flex justify-content-between">Daily logs: <span role="button" @click="updateLinkHandler">🔄</span></div>
       <div class="card-body">
-        <iframe :src="DAILY_LOG_LINK" frameborder="0" width="100%"></iframe>
+        <iframe :src="DAILY_LOG_LINK" frameborder="0" width="100%" ref="frame"></iframe>
       </div>
     </div>
   </div>
