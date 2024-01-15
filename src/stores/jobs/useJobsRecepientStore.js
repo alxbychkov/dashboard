@@ -28,7 +28,9 @@ export const useJobsStore = defineStore('jobsRecepientStore', {
             try {
                 const response = await axios.put('recepient/', value);
 
-                if (response.data.recepient?.id) this.get();
+                // if (response.data.recepient) {
+                //     this.get();
+                // }
             } catch (error) {
                 console.error('Error: ', error);
             }

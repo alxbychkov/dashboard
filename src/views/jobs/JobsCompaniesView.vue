@@ -50,9 +50,9 @@ const reverseSocial = (json) => {
         Jobs (Companies)
     </div>
     <JobsNav />
-    <div class="bord border border-secondary p-3 rounded mt-4">
-        <div class="mb-3 d-flex justify-content-between">
-            <div class="btn-group" role="group" aria-label="Count candidates">
+    <div class="bord border border-secondary p-3 rounded mt-4 overflow-auto">
+        <div class="mb-3 d-flex justify-content-between flex-sm-row flex-column">
+            <div class="btn-group mb-sm-0 mb-2" role="group" aria-label="Count candidates">
                 <button type="button" class="btn btn-outline-secondary" :class="count === 10 ? 'btn-warning' : ''"
                     @click="changeCountHandler(10)">
                     10

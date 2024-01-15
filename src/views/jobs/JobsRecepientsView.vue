@@ -6,24 +6,27 @@ import { useJobsRecepientStore } from "../../stores/jobs";
 const jobsRecepient = useJobsRecepientStore();
 const recepients = toRef(jobsRecepient, "recepients");
 
-let isLoading = ref(false);
+const isLoading = ref(false);
+const isLoaded = ref(false);
 
 const loadRecepientHandler = async (page) => {
     isLoading.value = true;
     await jobsRecepient.get(page);
     isLoading.value = false;
+    isLoaded.value = true;
 };
 
 const updateRecepientHandler = async (recepient) => {
     await jobsRecepient.update(recepient);
 }
+
 </script>
 <template>
     <div class="h2 pb-2 mb-4 text-success border-bottom border-success">
         Jobs (Recepients)
     </div>
     <JobsNav />
-    <div class="bord border border-secondary p-3 rounded mt-4">
+    <div class="bord border border-secondary p-3 rounded mt-4 overflow-auto">
         <div class="mb-3 d-flex justify-content-end">
             <button class="btn btn-success" type="button" :disabled="jobsRecepient.isLoaded"
                 @click="loadRecepientHandler(1)">
@@ -63,6 +66,9 @@ const updateRecepientHandler = async (recepient) => {
                 </form>
             </div>
         </div>
+        <h5 v-if="isLoaded && (!recepients || !recepients.length)" class="card-title text-center">
+            No recepients (something went wrong) 🤷
+        </h5>
     </div>
 </template>
     

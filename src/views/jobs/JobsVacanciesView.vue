@@ -3,9 +3,17 @@ import { toRef, ref } from "vue";
 import JobsNav from "./JobsNav.vue";
 import Pagination from "../../components/Pagination.vue";
 import { useJobsVacancyStore } from "../../stores/jobs";
+import VacancyModal from "../../components/modals/jobs/VacancyModal.vue";
+
+const INITIAL_VACANCY = {
+    id: '',
+    name: '',
+    questions: []
+}
 
 const jobsVacancy = useJobsVacancyStore();
 const vacancies = toRef(jobsVacancy, "vacancies");
+const vacancyRow = ref(INITIAL_VACANCY);
 const currentPage = toRef(jobsVacancy, "page");
 
 let isLoading = ref(false);
@@ -20,15 +28,23 @@ const loadVacancyHandler = async (page) => {
     await jobsVacancy.get(page, count.value);
     isLoading.value = false;
 };
+
+const setVacancy = (value = INITIAL_QUESTION) => {
+    vacancyRow.value.id = value.id ? value.id : '';
+    vacancyRow.value.name = value.name ? value.name : '';
+
+    const questions = value.questions ? JSON.parse(value.questions) : [];
+    vacancyRow.value.questions = questions;
+};
 </script>
 <template>
     <div class="h2 pb-2 mb-4 text-success border-bottom border-success">
         Jobs (Vacancies)
     </div>
     <JobsNav />
-    <div class="bord border border-secondary p-3 rounded mt-4">
-        <div class="mb-3 d-flex justify-content-between">
-            <div class="btn-group" role="group" aria-label="Count candidates">
+    <div class="bord border border-secondary p-3 rounded mt-4 overflow-auto">
+        <div class="mb-3 d-flex justify-content-between flex-sm-row flex-column">
+            <div class="btn-group mb-sm-0 mb-2" role="group" aria-label="Count candidates">
                 <button type="button" class="btn btn-outline-secondary" :class="count === 10 ? 'btn-warning' : ''"
                     @click="changeCountHandler(10)">
                     10
@@ -65,7 +81,13 @@ const loadVacancyHandler = async (page) => {
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(vacancy, index) in vacancies" :key="vacancy.id">
+                <tr v-for="(vacancy, index) in vacancies" :key="vacancy.id"
+                    data-bs-toggle="modal"
+                    data-bs-target="#jobsVacancyModal"
+                    role="button"
+                    tabindex="index"
+                    @click="setVacancy(vacancy)"
+                >
                     <th scope="row">{{ count * (currentPage - 1) + index + 1 }}</th>
                     <td><a :href="vacancy.applicationLink === 'https://cryptojobslist.com/' ? vacancy.link : vacancy.applicationLink" target="_blank">{{ vacancy.name }}</a></td>
                     <td><a :href="vacancy.company.website" target="_blank">{{ vacancy.company.name}}</a></td>
@@ -79,5 +101,6 @@ const loadVacancyHandler = async (page) => {
         <Pagination v-if="jobsVacancy.pages > 0" :page="currentPage" :pages="jobsVacancy.pages"
             @onPaginate="loadVacancyHandler" />
     </div>
+    <VacancyModal :vacancyRow="vacancyRow"/>
 </template>
     
