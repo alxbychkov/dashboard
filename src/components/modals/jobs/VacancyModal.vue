@@ -1,7 +1,7 @@
 <script setup>
 import * as bootstrap from "bootstrap";
 import { onMounted, ref, toRef } from "vue";
-import { useJobsVacancyStore, useJobsRecepientStore, useJobsQuestionStore } from "../../../stores/jobs";
+import { useJobsRecepientStore, useJobsVacancyStore } from "../../../stores/jobs";
 
 const INITIAL_RECEPIENT = {
   fullname: '',
@@ -14,8 +14,8 @@ const INITIAL_RECEPIENT = {
   salary: '',
 }
 
-const jobsVacancy = useJobsVacancyStore();
 const jobsRecepient = useJobsRecepientStore();
+const jobsVacancy = useJobsVacancyStore();
 
 const recepients = toRef(jobsRecepient, "recepients");
 const activeRecepient = ref(INITIAL_RECEPIENT);
@@ -25,7 +25,8 @@ const props = defineProps({
 });
 
 const applyVacancyHandler = () => {
-  jobsQuestion.update(props.vacancyRow);
+  const appliedArray = {...activeRecepient.value, questions: {...props.vacancyRow.questions}, status: props.vacancyRow.status, vacancyId: props.vacancyRow.id};
+  jobsVacancy.apply(appliedArray);
   closeModal();
 };
 
@@ -62,9 +63,9 @@ onMounted(async () => {
                 <input type="text" aria-label="Location" class="form-control" placeholder="Location" v-model="activeRecepient.location" disabled>
             </div>
 
-            <div v-for="(question, i) in vacancyRow.questions" class="input-group mb-3" :key="question.question">
-              <div class="rounded border p-2 bg-light w-100 mb-3">{{ question[`question${i+1}`] }}</div>
-              <textarea class="form-control rounded" aria-label="Answer" placeholder="Answer"></textarea>
+            <div v-for="(question) in vacancyRow.questions" class="input-group mb-3" :key="question.id">
+              <div class="rounded border p-2 bg-light w-100 mb-3">{{ question.question }}</div>
+              <textarea class="form-control rounded" aria-label="Answer" placeholder="Answer" v-model="question.answer"></textarea>
             </div>
 
             <div class="rounded border mb-3 p-2 bg-light">
@@ -81,7 +82,7 @@ onMounted(async () => {
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" @click="applyVacancyHandler">
+          <button type="button" class="btn btn-danger" @click="applyVacancyHandler" :disabled="vacancyRow.status !== 'relevant'">
             Apply
           </button>
         </div>

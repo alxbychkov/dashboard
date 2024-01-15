@@ -2,15 +2,17 @@
 import { toRef, ref } from "vue";
 import JobsNav from "./JobsNav.vue";
 import Pagination from "../../components/Pagination.vue";
-import { useJobsVacancyStore } from "../../stores/jobs";
+import { useJobsQuestionStore, useJobsVacancyStore } from "../../stores/jobs";
 import VacancyModal from "../../components/modals/jobs/VacancyModal.vue";
 
 const INITIAL_VACANCY = {
     id: '',
     name: '',
+    status: '',
     questions: []
 }
 
+const jobsQuestion = useJobsQuestionStore();
 const jobsVacancy = useJobsVacancyStore();
 const vacancies = toRef(jobsVacancy, "vacancies");
 const vacancyRow = ref(INITIAL_VACANCY);
@@ -29,12 +31,15 @@ const loadVacancyHandler = async (page) => {
     isLoading.value = false;
 };
 
-const setVacancy = (value = INITIAL_QUESTION) => {
+const setVacancy = async (value = INITIAL_QUESTION) => {
     vacancyRow.value.id = value.id ? value.id : '';
     vacancyRow.value.name = value.name ? value.name : '';
-
-    const questions = value.questions ? JSON.parse(value.questions) : [];
-    vacancyRow.value.questions = questions;
+    vacancyRow.value.status = value.status ? value.status : 'relevant';
+    
+    const vacancyQuestionsParsedJSON = value.questions ? JSON.parse(value.questions) : [];
+    const vacancyQuestions = vacancyQuestionsParsedJSON.map(v => Object.values(v)[0]);
+    const questions = vacancyQuestions.length ? await jobsQuestion.find(vacancyQuestions) : [];
+    vacancyRow.value.questions = [...questions];
 };
 </script>
 <template>

@@ -23,6 +23,15 @@ export const useJobsStore = defineStore('jobsVacancyStore', {
                 console.error('Error: ', error);
                 this.isLoaded = true;
             }
+        },
+        async apply(value) {
+            try {
+                console.log(value);
+
+                
+            } catch (error) {
+                console.error('Error: ', error);
+            }
         }
     },
     getters: {}

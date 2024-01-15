@@ -24,6 +24,15 @@ export const useJobsStore = defineStore('jobsQuestionStore', {
                 this.isLoaded = true;
             }
         },
+        async find(questions = []) {
+            try {
+                const response = await axios.post('question/', {questions});
+
+                return response.data.questions.values;
+            } catch (error) {
+                console.error('Error: ', error);
+            }
+        },
         async update(value) {
             try {
                 const response = await axios.put('question/', value);
