@@ -31,7 +31,6 @@ export const useJobsStore = defineStore('jobsVacancyStore', {
                 return response?.data;
             } catch (error) {
                 console.error('Error: ', error);
-                return response?.data;
             }
         }
     },
