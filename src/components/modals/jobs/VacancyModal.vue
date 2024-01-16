@@ -57,8 +57,6 @@ const applyVacancyHandler = async () => {
   const response = await jobsVacancy.apply(appliedArray);
   isSending.value = false;
 
-  information.value = response.message;
-
   closeModal();
 };
 
@@ -115,10 +113,6 @@ onMounted(async () => {
         </div>
         <div v-if="vacancyRow.applicationLink === 'https://cryptojobslist.com/'" class="modal-footer">
           <Loader v-if="isSending"/>
-
-          <h5 v-if="information" class="modal-title">
-            {{ information }}
-          </h5>
           <button v-else type="button" class="btn btn-danger" @click="applyVacancyHandler" :disabled="vacancyRow.status !== 'relevant'">
             Apply
           </button>
