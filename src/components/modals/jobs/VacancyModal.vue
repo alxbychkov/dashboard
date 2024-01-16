@@ -2,6 +2,7 @@
 import * as bootstrap from "bootstrap";
 import { onMounted, ref, toRef } from "vue";
 import { useJobsRecepientStore, useJobsVacancyStore } from "../../../stores/jobs";
+import Loader from "../../Loader.vue";
 
 const INITIAL_RECEPIENT = {
   fullname: '',
@@ -14,6 +15,9 @@ const INITIAL_RECEPIENT = {
   salary: '',
 }
 
+const isSending = ref(false);
+const information = ref('');
+
 const jobsRecepient = useJobsRecepientStore();
 const jobsVacancy = useJobsVacancyStore();
 
@@ -24,9 +28,37 @@ const props = defineProps({
   vacancyRow: Object
 });
 
-const applyVacancyHandler = () => {
-  const appliedArray = {...activeRecepient.value, questions: {...props.vacancyRow.questions}, status: props.vacancyRow.status, vacancyId: props.vacancyRow.id};
-  jobsVacancy.apply(appliedArray);
+const applyVacancyHandler = async () => {
+  const questions = {}
+
+  Object.values({...props.vacancyRow.questions}).forEach((obj, i) => {
+    const key = `question${i+1}`;
+    questions[key] = obj.answer;
+  });
+
+  const appliedArray = {
+      vacancyId: props.vacancyRow.id,
+      companyId: props.vacancyRow.companyId,
+      url: props.vacancyRow.link,
+      recepient: {
+        fullName: activeRecepient.value.fullname,
+        email: activeRecepient.value.email,
+        phoneNumber: activeRecepient.value.phone,
+        location: activeRecepient.value.location,
+        github: activeRecepient.value.github,
+        linkedin: activeRecepient.value.linkedin,
+        salaryExpectations: activeRecepient.value.salary,
+        message: activeRecepient.value.letter,
+      },
+      questions,
+  };
+ 
+  isSending.value = true;
+  const response = await jobsVacancy.apply(appliedArray);
+  isSending.value = false;
+
+  information.value = response.message;
+
   closeModal();
 };
 
@@ -77,14 +109,20 @@ onMounted(async () => {
                 <input type="text" aria-label="Linkedin" class="form-control" placeholder="Linkedin" v-model="activeRecepient.linkedin" disabled>
             </div>
             <div class="input-group mb-3">
-                <input type="text" aria-label="Salary" class="form-control" placeholder="Salary" v-model="activeRecepient.salary" disabled>
+                <input type="text" aria-label="Salary" class="form-control" placeholder="Salary" v-model="vacancyRow.salary" disabled>
             </div>
           </form>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" @click="applyVacancyHandler" :disabled="vacancyRow.status !== 'relevant'">
+        <div v-if="vacancyRow.applicationLink === 'https://cryptojobslist.com/'" class="modal-footer">
+          <Loader v-if="isSending"/>
+
+          <h5 v-if="information" class="modal-title">
+            {{ information }}
+          </h5>
+          <button v-else type="button" class="btn btn-danger" @click="applyVacancyHandler" :disabled="vacancyRow.status !== 'relevant'">
             Apply
           </button>
+
         </div>
       </div>
     </div>

@@ -26,9 +26,9 @@ export const useJobsStore = defineStore('jobsVacancyStore', {
         },
         async apply(value) {
             try {
-                console.log(value);
+                const response = await axios.put('vacancy/', value);
 
-
+                return response?.data;
             } catch (error) {
                 console.error('Error: ', error);
             }

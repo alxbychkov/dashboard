@@ -8,7 +8,11 @@ import VacancyModal from "../../components/modals/jobs/VacancyModal.vue";
 const INITIAL_VACANCY = {
     id: '',
     name: '',
+    link: '',
+    applicationLink: '',
     status: '',
+    salary: '',
+    companyId: '',
     questions: []
 }
 
@@ -39,7 +43,11 @@ const loadVacancyHandler = async (page) => {
 const setVacancy = async (value = INITIAL_QUESTION) => {
     vacancyRow.value.id = value.id ? value.id : '';
     vacancyRow.value.name = value.name ? value.name : '';
+    vacancyRow.value.link = value.link ? value.link : '';
+    vacancyRow.value.applicationLink = value.applicationLink ? value.applicationLink : '';
+    vacancyRow.value.salary = value.salary ? value.salary : '';
     vacancyRow.value.status = value.status ? value.status : 'relevant';
+    vacancyRow.value.companyId = value.company_id ? value.company_id : '';
     
     const vacancyQuestionsParsedJSON = value.questions ? JSON.parse(value.questions) : [];
     const vacancyQuestions = vacancyQuestionsParsedJSON.map(v => Object.values(v)[0]);
