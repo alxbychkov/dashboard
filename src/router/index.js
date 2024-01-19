@@ -48,6 +48,12 @@ const router = createRouter({
       component: () => import('../views/habr/HabrCandidateView.vue')
     },
     {
+      path: '/curve',
+      name: 'curve',
+      meta: {requiresAuth: true},
+      component: () => import('../views/curve/CurveView.vue')
+    },
+    {
       path: '/jobs',
       name: 'jobs',
       meta: {requiresAuth: true},

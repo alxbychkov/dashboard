@@ -30,6 +30,11 @@ const navLinks = [
     logo: "/images/icons/job.png",
   },
   {
+    href: "/curve",
+    name: "Curve.fi",
+    logo: "/images/icons/curve.png",
+  },
+  {
     href: "/about",
     name: "About",
     logo: "/images/icons/info.png",
@@ -54,7 +59,6 @@ onMounted(() => {
       document.querySelectorAll('[data-bs-toggle="tooltip"]')
     );
     if (tooltipTriggerList.length) {
-      console.log(tooltipTriggerList);
       tooltipTriggerList.forEach((tooltipTriggerEl) => {
         new bootstrap.Tooltip(tooltipTriggerEl, "");
       });
