@@ -2,16 +2,26 @@
 import * as bootstrap from "bootstrap";
 import { onMounted, ref } from "vue";
 import { useJobsQuestionStore } from "../../../stores/jobs";
+import Loader from "../../Loader.vue";
 
 const jobsQuestion = useJobsQuestionStore();
+const isLoading = ref(false);
 
 const props = defineProps({
   questionRow: Object
 });
 
-const updateQuestionHandler = () => {
-  jobsQuestion.update(props.questionRow);
+const updateQuestionHandler = async () => {
+  await jobsQuestion.update(props.questionRow);
   closeModal();
+};
+
+const generateQuestionHandler = async (row) => {
+  const question = `You're going to interview the company. And you are asked the following question: "${row.question}". Help me briefly answer using no more than 350 characters. Without binding to a specific company, the letter is suitable for everyone.`;
+
+  isLoading.value = true;
+  row.answer = await jobsQuestion.generate(question);
+  isLoading.value = false;
 };
 
 const closeModal = () => {
@@ -38,6 +48,10 @@ const closeModal = () => {
           </form>
         </div>
         <div class="modal-footer">
+          <button type="button" class="btn btn-danger" @click="generateQuestionHandler(questionRow)" :disabled="questionRow.answer !== ''">
+            <span v-if="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Generate
+          </button>
           <button type="button" class="btn btn-success" @click="updateQuestionHandler" :disabled="!questionRow.answer">
             Update
           </button>

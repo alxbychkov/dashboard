@@ -44,6 +44,21 @@ export const useJobsStore = defineStore('jobsQuestionStore', {
                 console.error('Error: ', error);
             }
         },
+        async generate(value) {
+            try {
+                const response = await axios.post('answer/', {question: value});
+                let answer = '';
+
+                if (response.data.answer) {
+                    this.get();
+                    answer = response.data.answer;
+                }
+
+                return answer;
+            } catch (error) {
+                console.error('Error: ', error);
+            }
+        },
     },
     getters: {}
 });
