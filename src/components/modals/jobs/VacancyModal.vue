@@ -112,9 +112,8 @@ onMounted(async () => {
           </form>
         </div>
         <div v-if="vacancyRow.applicationLink === 'https://cryptojobslist.com/'" class="modal-footer">
-          <Loader v-if="isSending"/>
-          <button v-else type="button" class="btn btn-danger" @click="applyVacancyHandler" :disabled="vacancyRow.status !== 'relevant'">
-            Apply
+          <button type="button" class="btn btn-danger" @click="applyVacancyHandler" :disabled="vacancyRow.status !== 'relevant'">
+            <span v-if="isSending" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Apply
           </button>
 
         </div>
