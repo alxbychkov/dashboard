@@ -3,7 +3,7 @@ import { onBeforeMount, onMounted, ref } from "vue";
 import CurveNav from "./CurveNav.vue";
 import Loader from "../../components/Loader.vue";
 
-const DAILY_LOG_LINK =  (process.env.NODE_ENV === 'production') ? 'https://habr.atcon.ru/api/v2/curve/' : 'http://5.35.82.91:4000/curve';
+const DAILY_LOG_LINK =  "https://habr.atcon.ru/curve.fi/logs/";
 const frame = ref(null);
 
 const updateLinkHandler = () => {
